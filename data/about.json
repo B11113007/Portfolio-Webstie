@@ -1,4 +1,5 @@
 {
+  "photo": "",
   "bio": {
     "en": "Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.",
     "zh": "林元浩（Yuan-Hao Lin）是一位建築研究者與設計師，專注於亞熱帶氣候下的韌性城市基礎設施、材料循環再利用與空間現象學。"
@@ -53,6 +54,29 @@
       "institution": {
         "en": "Kengo Kuma & Associates, Tokyo",
         "zh": "隈研吾建築都市設計事務所，東京"
+      }
+    }
+  ],
+  "awards": [
+    {
+      "year": "2026",
+      "title": {
+        "en": "M.Arch Thesis Award First Runner-Up — Hydrological Thresholds selected for national design publication",
+        "zh": "碩士畢業設計獎 亞軍 — 作品「水文交界處」獲選刊登於全國建築設計年鑑"
+      }
+    },
+    {
+      "year": "2025",
+      "title": {
+        "en": "Exhibited at Young Architects Forum — Subtropical Timber Housing prototypes at Taipei Fine Arts Museum",
+        "zh": "參展 青年建築師論壇 — 亞熱帶積層木造住宅模型於台北市立美術館展示"
+      }
+    },
+    {
+      "year": "2024",
+      "title": {
+        "en": "Winner of Kaohsiung Silo Reuse Competition — First place among 120 international student proposals",
+        "zh": "高雄工業遺構改造競賽 首獎 — 於 120 件國際學生提案中獲選第一名"
       }
     }
   ]

@@ -2,27 +2,28 @@
    DESIGN SYSTEM & TOKENS
    ========================================================================== */
 :root {
-  --bg-primary: #f8f8f6;
-  --bg-surface: #f1f0ec;
+  --bg-primary: #F6F5EF;
+  --bg-surface: #ECEAE2;
   --text-main: #141414;
-  --text-muted: #737373;
+  --text-muted: #666660;
   --border-color: #141414;
   --border-light: rgba(20, 20, 20, 0.12);
+  --border-width: 1px;
   --accent-teal: #0a7e8c;
   --accent-teal-hover: #075b65;
 
   --font-sans: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --header-height: 72px;
-  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --header-height: 96px;
+  --gutter: clamp(1.5rem, 4vw, 3.5rem);
   --border-radius: 0px;
 
-  /* Carousel: centre card size. Side cards are placed by script.js so that
-     their centre sits on the viewport edge (= half of each side card hidden). */
-  --carousel-card-size: min(calc(100vw / 2.1), calc(100vh - var(--header-height) - 7.5rem));
-  --carousel-side-scale: 0.82;
-  --carousel-gap: clamp(1rem, 3vw, 2.5rem);
+  /* Carousel: slightly smaller square so header + carousel + PREV/NEXT fit
+     comfortably in the first viewport with generous breathing room */
+  --carousel-card-size: min(calc(100vw / 2.35), calc(100vh - var(--header-height) - 9.5rem));
+  --carousel-side-scale: 0.80;
+  --carousel-gap: clamp(1.25rem, 3vw, 2.5rem);
   --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -58,7 +59,7 @@ body {
   width: 100%;
   height: var(--header-height);
   background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 2px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,22 +68,12 @@ body {
 }
 
 .brand-logo {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  font-weight: 700;
   letter-spacing: -0.02em;
   text-decoration: none;
   color: var(--text-main);
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.brand-logo .sub {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent-teal);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  line-height: 1;
 }
 
 .nav-container {
@@ -94,14 +85,14 @@ body {
 .nav-links {
   display: flex;
   list-style: none;
-  gap: clamp(1.2rem, 2.5vw, 2.2rem);
+  gap: clamp(1.4rem, 2.8vw, 2.6rem);
 }
 
 .nav-links a {
   text-decoration: none;
   color: var(--text-main);
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   position: relative;
@@ -112,10 +103,10 @@ body {
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 0%;
-  height: 1.5px;
+  height: 2px;
   background-color: var(--accent-teal);
   transition: width 0.25s var(--transition-smooth);
 }
@@ -132,10 +123,11 @@ body {
 
 .lang-btn {
   background: none;
-  border: 1px solid var(--border-color);
-  padding: 4px 10px;
+  border: var(--border-width) solid var(--border-color);
+  padding: 5px 12px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
   color: var(--text-main);
   transition: all 0.2s ease;
@@ -154,7 +146,7 @@ main {
 }
 
 section {
-  padding: clamp(3rem, 6vw, 6rem) var(--gutter);
+  padding: clamp(3rem, 6vw, 5.5rem) var(--gutter);
   scroll-margin-top: var(--header-height);
 }
 
@@ -189,9 +181,9 @@ section {
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
-  min-width: 150px;
+  min-width: 160px;
   padding: 0 0 10px 0;
-  border-bottom: 1.5px solid var(--text-main);
+  border-bottom: var(--border-width) solid var(--border-color);
   color: var(--text-main);
   text-decoration: none;
   font-size: 0.85rem;
@@ -219,7 +211,7 @@ section {
    01. FEATURED CAROUSEL SECTION (HOME)
    ========================================================================== */
 #home {
-  padding: 2rem 0 2.5rem 0;
+  padding: clamp(2.25rem, 4.5vh, 3.5rem) 0 clamp(2rem, 4vh, 3rem) 0;
   position: relative;
   overflow: hidden;
 }
@@ -236,6 +228,12 @@ section {
   height: var(--carousel-card-size);
   overflow: hidden;
   touch-action: pan-y;
+  cursor: grab;
+}
+
+.carousel-viewport.is-dragging,
+.carousel-viewport.is-dragging .carousel-card {
+  cursor: grabbing;
 }
 
 .carousel-card {
@@ -244,7 +242,8 @@ section {
   left: 50%;
   width: var(--carousel-card-size);
   height: var(--carousel-card-size);
-  border: 1px solid var(--border-color);
+  border: none;
+  border-radius: 0;
   background: var(--bg-surface);
   overflow: hidden;
   user-select: none;
@@ -276,7 +275,7 @@ section {
   justify-content: flex-end;
   gap: 0.6rem;
   padding: clamp(1.25rem, 3vw, 2.25rem);
-  background: rgba(10, 10, 10, 0.6);
+  background: rgba(10, 10, 10, 0.62);
   color: #fff;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -297,14 +296,14 @@ section {
 }
 
 .card-overlay .overlay-title {
-  font-size: clamp(1.3rem, 2.4vw, 2rem);
-  font-weight: 400;
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
 .card-overlay .overlay-summary {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   max-width: 46ch;
   opacity: 0.9;
@@ -327,7 +326,7 @@ section {
 
 .carousel-caption .overlay-title {
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-top: 0.2rem;
 }
 
@@ -336,13 +335,13 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem var(--gutter) 0;
+  padding: clamp(1.25rem, 2.5vh, 2rem) var(--gutter) 0;
 }
 
 .carousel-btn {
   background: transparent;
   border: none;
-  border-bottom: 1.5px solid var(--text-main);
+  border-bottom: var(--border-width) solid var(--border-color);
   color: var(--text-main);
   padding: 0 0 10px 0;
   min-width: 150px;
@@ -375,6 +374,10 @@ section {
   border-top: 1px solid var(--border-light);
 }
 
+body[data-page="work"] #work {
+  border-top: none;
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -392,7 +395,8 @@ section {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: 0;
   background: var(--bg-surface);
 }
 
@@ -416,7 +420,7 @@ section {
 
 .gallery-meta .tag {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -424,7 +428,7 @@ section {
 
 .gallery-meta h3 {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 0.3rem;
   letter-spacing: -0.01em;
   line-height: 1.35;
@@ -435,36 +439,63 @@ section {
 }
 
 /* ==========================================================================
-   03. PROFILE SECTION (home preview + about.html)
+   03. PROFILE / ABOUT SECTION (home preview + about.html)
    ========================================================================== */
 #profile {
   border-top: 1px solid var(--border-light);
   background: var(--bg-primary);
 }
 
+body[data-page="about"] #profile {
+  border-top: none;
+}
+
 .profile-preview {
   max-width: 860px;
 }
 
-.profile-layout {
+/* About layout:
+   - Without photo: 2 columns (Bio on left, Credentials + Awards on right)
+   - With photo (.has-photo): Photo on left, Bio + Credentials + Awards stacked on right (like Annabelle Tan) */
+.about-layout .about-content-col {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.about-layout.has-photo {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.about-layout.has-photo .about-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.about-photo-col img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .profile-bio-main {
-  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-  font-weight: 300;
-  line-height: 1.6;
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  font-weight: 400;
+  line-height: 1.55;
   color: var(--text-main);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .profile-sub-text {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.7;
-  margin-bottom: 2.5rem;
+  color: var(--text-main);
+  font-size: 0.96rem;
+  line-height: 1.75;
+  margin-bottom: 2.25rem;
 }
 
 .profile-preview .profile-sub-text {
@@ -476,11 +507,12 @@ section {
   align-items: center;
   gap: 12px;
   padding: 12px 24px;
-  border: 1px solid var(--border-color);
+  border: var(--border-width) solid var(--border-color);
   color: var(--text-main);
   text-decoration: none;
   font-family: var(--font-mono);
   font-size: 0.78rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: all 0.25s ease;
@@ -497,16 +529,14 @@ section {
   gap: 2.5rem;
 }
 
-.cred-group h2,
-.cred-group h4 {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--accent-teal);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.cred-group h2 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
   margin-bottom: 1rem;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -520,13 +550,15 @@ section {
 .cred-item {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 .cred-item .year {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.15rem;
 }
 
 .cred-item .title {
@@ -539,136 +571,87 @@ section {
 }
 
 /* ==========================================================================
-   04. NEWS SECTION (home preview + news.html)
+   PROJECT DETAIL PAGE (project.html?id=...)
+   Annabelle Tan layout:
+   - Left column (sticky): Category + Teal Title + Description + Specs
+   - Right column (scrolls): Full-width stack of images from the very top
    ========================================================================== */
-#news {
-  border-top: 1px solid var(--border-light);
+.project-page {
+  padding: clamp(2.5rem, 5vw, 4rem) var(--gutter) clamp(3rem, 6vw, 6rem);
 }
 
-.news-timeline {
+.project-split {
+  display: grid;
+  grid-template-columns: minmax(280px, 32%) 1fr;
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  align-items: start;
+}
+
+.project-info-col {
+  position: sticky;
+  top: calc(var(--header-height) + 2.5rem);
   display: flex;
   flex-direction: column;
 }
 
-.news-item {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  padding: 1.8rem 0;
-  border-bottom: 1px solid var(--border-light);
-  gap: 2rem;
-}
-
-.news-item:first-child {
-  border-top: 1px solid var(--border-light);
-}
-
-.news-date {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--accent-teal);
-  letter-spacing: 0.05em;
-}
-
-.news-content h3 {
-  font-size: 1.1rem;
-  font-weight: 400;
-  margin-bottom: 0.4rem;
-}
-
-.news-content p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  max-width: 680px;
-}
-
-/* ==========================================================================
-   PROJECT DETAIL PAGE (project.html?id=...)
-   ========================================================================== */
-.project-page {
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) clamp(3rem, 6vw, 6rem);
-}
-
-.project-back {
-  display: inline-block;
-  margin-bottom: 2rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  text-decoration: none;
-}
-
-.project-back:hover {
-  color: var(--accent-teal);
-}
-
-.project-header {
-  margin-bottom: 2.5rem;
-  max-width: 900px;
-}
-
-.project-header .tag {
+.project-info-col .tag {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--accent-teal);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
 }
 
-.project-header h1 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 300;
-  margin: 0.5rem 0 1.5rem 0;
-  line-height: 1.1;
+.project-info-col h1 {
+  font-size: clamp(1.9rem, 3.2vw, 2.85rem);
+  font-weight: 600;
+  color: var(--accent-teal);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.75rem;
 }
 
-.project-specs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1.5rem;
-  padding-top: 1.2rem;
+.project-description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  margin-bottom: 2rem;
+}
+
+.project-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
   border-top: 1px solid var(--border-light);
   font-size: 0.85rem;
 }
 
-.spec-item .spec-label {
-  display: block;
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.spec-row .spec-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
-.project-body {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: clamp(2rem, 4vw, 4rem);
-  margin-top: 2rem;
-  align-items: start;
-}
-
-/* Description stays visible while scrolling through images */
-.project-text {
-  position: sticky;
-  top: calc(var(--header-height) + 2rem);
-}
-
-.project-description {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-main);
-}
-
-.project-gallery-stack {
+.project-gallery-col {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .project-img-wrapper {
   width: 100%;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-light);
+  background: transparent;
+  border: none;
 }
 
 .project-img-wrapper svg,
@@ -678,27 +661,12 @@ section {
   display: block;
 }
 
-.project-img-caption {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  padding: 0.5rem 0.8rem;
-}
-
-.project-subheading {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--accent-teal);
-  margin-bottom: 0.8rem;
-}
-
 /* Previous / next project at the bottom of a project page */
 .project-pager {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  margin-top: clamp(3rem, 6vw, 5rem);
+  margin-top: clamp(3.5rem, 6vw, 5.5rem);
   padding-top: 2rem;
   border-top: 1px solid var(--border-light);
 }
@@ -726,6 +694,7 @@ section {
 
 .project-pager .pager-title {
   font-size: 1.05rem;
+  font-weight: 500;
 }
 
 .project-pager a:hover .pager-title {
@@ -741,7 +710,7 @@ section {
    ========================================================================== */
 .site-footer {
   border-top: 1px solid var(--border-light);
-  padding: 3rem var(--gutter);
+  padding: 2.5rem var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -760,62 +729,55 @@ section {
 }
 
 @media (max-width: 900px) {
-  .profile-layout {
+  .about-layout .about-content-col,
+  .about-layout.has-photo {
     grid-template-columns: 1fr;
   }
 
-  .project-body {
+  .project-split {
     grid-template-columns: 1fr;
   }
 
-  .project-text {
+  .project-info-col {
     position: static;
   }
 
   .gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .carousel-controls {
+    position: static;
+    padding: 1.5rem var(--gutter) 0;
+  }
 }
 
 @media (max-width: 680px) {
   :root {
-    --carousel-card-size: 72vw;
+    --header-height: 76px;
+    --carousel-card-size: 70vw;
   }
 
   .site-header {
     padding: 0 1rem;
   }
 
-  .brand-logo .sub {
-    display: none;
-  }
-
   .nav-container {
-    gap: 0.9rem;
+    gap: 1rem;
   }
 
   .nav-links {
-    gap: 0.9rem;
+    gap: 1rem;
   }
 
   .nav-links a {
-    font-size: 0.75rem;
-  }
-
-  .editorial-hero-meta {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    font-size: 0.8rem;
   }
 
   .carousel-btn,
   .link-arrow {
     min-width: 110px;
     font-size: 0.75rem;
-  }
-
-  .news-item {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
   }
 
   .site-footer {
