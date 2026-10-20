@@ -8,11 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body data-page="home">
 
-  <!-- SITE HEADER -->
+  <!-- SITE HEADER (home: no nav item highlighted) -->
   <header class="site-header">
     <a href="index.html" class="brand-logo" aria-label="Y.H. Lin Architecture — home">
       <span>Y.H. LIN</span>
@@ -21,9 +21,9 @@
     <div class="nav-container">
       <nav aria-label="Primary navigation">
         <ul class="nav-links">
-          <li><a href="#work"    id="nav-work"  class="active">WORK</a></li>
+          <li><a href="work.html"  id="nav-work">WORK</a></li>
           <li><a href="about.html" id="nav-about">ABOUT</a></li>
-          <li><a href="#news"   id="nav-news">NEWS</a></li>
+          <li><a href="news.html"  id="nav-news">NEWS</a></li>
         </ul>
       </nav>
       <button class="lang-btn" id="lang-toggle-btn" aria-label="Toggle language between English and Chinese">EN / 中文</button>
@@ -33,56 +33,60 @@
   <main>
 
     <!-- 01. FEATURED CAROUSEL -->
-    <section id="home" aria-labelledby="hero-label">
-      <div class="editorial-hero-meta">
-        <div>
-          <span class="section-label" id="hero-label">01 / FEATURED PORTFOLIO</span>
-          <p class="hero-intro-text" id="hero-text">
-            Graduate portfolio exploring tectonic clarity, spatial thresholds, and environmental adaptability through architectural synthesis.
-          </p>
-        </div>
-      </div>
-
+    <section id="home" aria-label="Featured portfolio">
       <div class="carousel-stage">
-        <div class="carousel-viewport" id="carousel-viewport" aria-label="Featured projects carousel">
-          <div class="carousel-track" id="carousel-track" role="list">
-            <!-- Rendered via script.js -->
-          </div>
+        <div class="carousel-viewport" id="carousel-viewport" aria-label="Featured projects carousel" aria-roledescription="carousel">
+          <!-- Cards rendered via script.js from data/projects.json -->
         </div>
 
-        <div class="carousel-controls" aria-label="Carousel controls">
+        <!-- Touch devices: info shown below the image instead of hover overlay -->
+        <div class="carousel-caption" id="carousel-caption" aria-live="polite"></div>
+
+        <div class="carousel-controls">
           <button class="carousel-btn" id="prev-btn" aria-label="Previous project">
-            ← <span id="label-prev">PREV</span>
+            <span class="arrow" aria-hidden="true">←</span><span id="label-prev">PREV</span>
           </button>
-          <span class="carousel-counter" id="carousel-counter" aria-live="polite">01 / 05</span>
           <button class="carousel-btn" id="next-btn" aria-label="Next project">
-            <span id="label-next">NEXT</span> →
+            <span id="label-next">NEXT</span><span class="arrow" aria-hidden="true">→</span>
           </button>
         </div>
-      </div>
-
-      <div class="view-all-container">
-        <button class="btn-view-all" id="btn-view-all">
-          <span id="label-view-all">VIEW ALL PROJECTS</span> ↓
-        </button>
       </div>
     </section>
 
-    <!-- 02. WORK GALLERY -->
+    <!-- 02. WORK PREVIEW -->
     <section id="work" aria-labelledby="work-title">
-      <span class="section-label" id="work-label">INDEX / ALL PROJECTS</span>
+      <span class="section-label" id="work-label">INDEX / SELECTED PROJECTS</span>
       <h2 class="section-title" id="work-title">Selected Works</h2>
       <div class="gallery-grid" id="gallery-grid" aria-label="Project gallery">
-        <!-- Rendered via script.js -->
+        <!-- First N projects rendered via script.js (N = homeWorkCount in data/site.json) -->
+      </div>
+      <div class="section-more">
+        <a href="work.html" class="link-arrow"><span id="label-view-all-work">VIEW ALL</span><span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </section>
 
-    <!-- 03. NEWS -->
+    <!-- 03. PROFILE PREVIEW -->
+    <section id="profile" aria-labelledby="profile-title">
+      <span class="section-label" id="profile-label">BIOGRAPHY &amp; CREDENTIALS</span>
+      <h2 class="section-title" id="profile-title">Profile</h2>
+      <div class="profile-preview">
+        <p class="profile-bio-main" id="profile-bio-main"></p>
+        <p class="profile-sub-text" id="profile-bio-sub"></p>
+      </div>
+      <div class="section-more">
+        <a href="about.html" class="link-arrow"><span id="label-view-profile">VIEW PROFILE</span><span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- 04. NEWS PREVIEW -->
     <section id="news" aria-labelledby="news-title">
       <span class="section-label" id="news-label">UPDATES &amp; PRESS</span>
       <h2 class="section-title" id="news-title">News</h2>
       <div class="news-timeline" id="news-timeline" aria-label="News and press updates">
-        <!-- Rendered via script.js -->
+        <!-- Latest N items rendered via script.js (N = homeNewsCount in data/site.json) -->
+      </div>
+      <div class="section-more">
+        <a href="news.html" class="link-arrow"><span id="label-view-all-news">VIEW ALL</span><span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -93,16 +97,6 @@
     <div><a href="about.html" style="color:inherit;text-decoration:none;">ABOUT &amp; CV</a></div>
   </footer>
 
-  <!-- PROJECT DETAIL MODAL -->
-  <dialog class="project-modal" id="project-modal" aria-modal="true" aria-label="Project detail">
-    <div class="modal-inner">
-      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close project detail">✕</button>
-      <div id="modal-content-target">
-        <!-- Injected via script.js -->
-      </div>
-    </div>
-  </dialog>
-
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

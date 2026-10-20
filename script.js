@@ -1,11 +1,20 @@
 /* ==========================================================================
-   script.js — Portfolio site logic
-   All content is loaded from:
-     data/projects.json  → project cards, carousel, modal
-     data/about.json     → biography, education, experience (about.html)
-     data/news.json      → news items (both pages)
+   script.js — Portfolio site logic (no framework)
+
+   All content is loaded from JSON files:
+     data/projects.json → carousel, work grid, project pages
+     data/about.json    → biography, education, experience
+     data/news.json     → news items
+     data/site.json     → how many items appear on the home page
 
    To update content: edit the JSON files only. No HTML or JS changes needed.
+
+   Pages (decided by <body data-page="...">):
+     home    → index.html    carousel + work preview + profile preview + news preview
+     work    → work.html     all projects
+     about   → about.html    biography + credentials
+     news    → news.html     all news
+     project → project.html?id=project-01   one shared template for every project
    ========================================================================== */
 
 /* ==========================================
@@ -82,200 +91,286 @@ function generateArchitecturalSvg(type, color, label) {
   </svg>`;
 }
 
-/* Helper: returns <img> if path is set, otherwise SVG fallback */
-function projectVisual(imagePath, svgType, label, fullSize) {
+/* Helper: returns <img> if a path is set, otherwise the SVG fallback */
+function projectVisual(imagePath, svgType, label) {
   if (imagePath) {
-    return `<img src="${imagePath}" alt="${label}"
-                 style="width:100%;height:100%;object-fit:cover;display:block;">`;
+    return `<img src="${imagePath}" alt="${label}" loading="lazy" draggable="false">`;
   }
   return generateArchitecturalSvg(svgType, '#0a7e8c', label);
+}
+
+/* Helper: link to a project's own page (same window) */
+function projectUrl(id) {
+  return 'project.html?id=' + encodeURIComponent(id);
 }
 
 /* ==========================================
    02. STATE
    ========================================== */
+const PAGE = document.body.dataset.page; // home | work | about | news | project
+
 let projectsData = [];
 let newsData     = [];
 let aboutData    = {};
-let currentLang  = 'en';
+let siteConfig   = { homeCarouselCount: 5, homeWorkCount: 8, homeNewsCount: 3 };
+let currentLang  = localStorage.getItem('lang') === 'zh' ? 'zh' : 'en';
 let activeCarouselIndex = 0;
 
 /* ==========================================
-   03. UI LABELS (bilingual — nav & section headings only;
-       all body content now lives in JSON files)
+   03. UI LABELS (bilingual — navigation & headings only;
+       all body content lives in the JSON files)
    ========================================== */
 const uiText = {
   en: {
-    logoSub:    'ARCHITECTURE',
-    navWork:    'WORK',
-    navAbout:   'ABOUT',
-    navNews:    'NEWS',
-    heroLabel:  '01 / FEATURED PORTFOLIO',
-    heroText:   'Graduate portfolio exploring tectonic clarity, spatial thresholds, and environmental adaptability through architectural synthesis.',
-    prev:       'PREV',
-    next:       'NEXT',
-    viewAll:    'VIEW ALL PROJECTS',
-    workLabel:  'INDEX / ALL PROJECTS',
-    workTitle:  'Selected Works',
-    newsLabel:  'UPDATES & PRESS',
-    newsTitle:  'News',
+    logoSub:      'ARCHITECTURE',
+    navWork:      'WORK',
+    navAbout:     'ABOUT',
+    navNews:      'NEWS',
+    heroLabel:    'FEATURED PORTFOLIO',
+    heroText:     'Graduate portfolio exploring tectonic clarity, spatial thresholds, and environmental adaptability through architectural synthesis.',
+    prev:         'PREV',
+    next:         'NEXT',
+    viewAll:      'VIEW ALL',
+    viewProfile:  'VIEW PROFILE',
+    workLabelHome:'INDEX / SELECTED PROJECTS',
+    workLabelAll: 'INDEX / ALL PROJECTS',
+    workTitleHome:'Selected Works',
+    workTitleAll: 'Works',
+    newsLabel:    'UPDATES & PRESS',
+    newsTitle:    'News',
     profileLabel: 'BIOGRAPHY & CREDENTIALS',
     profileTitle: 'Profile',
-    headEdu:    'EDUCATION',
-    headExp:    'SELECTED EXPERIENCE',
-    cvBtn:      'DOWNLOAD FULL CV (PDF) ↓',
-    modalYear:  'YEAR',
-    modalLoc:   'LOCATION',
-    modalCollab:'COLLABORATORS',
-    modalOverview: 'PROJECT OVERVIEW',
-    modalDrawings: 'ARCHITECTURAL DRAWINGS & PLANS'
+    headEdu:      'EDUCATION',
+    headExp:      'SELECTED EXPERIENCE',
+    cvBtn:        'DOWNLOAD FULL CV (PDF) ↓',
+    cvSoon:       'CV coming soon.',
+    specYear:     'YEAR',
+    specLoc:      'LOCATION',
+    specCollab:   'COLLABORATORS',
+    overview:     'PROJECT OVERVIEW',
+    drawings:     'ARCHITECTURAL DRAWINGS & PLANS',
+    backToWork:   '← ALL WORKS',
+    prevProject:  '← PREVIOUS PROJECT',
+    nextProject:  'NEXT PROJECT →',
+    notFound:     'Project not found.',
+    figure:       'FIG'
   },
   zh: {
-    logoSub:    '建築作品集',
-    navWork:    '作品集',
-    navAbout:   '關於',
-    navNews:    '最新動態',
-    heroLabel:  '01 / 特選作品展示',
-    heroText:   '探索構造清晰度、空間邊界與環境適應力的建築設計碩士作品集。',
-    prev:       '上一案',
-    next:       '下一案',
-    viewAll:    '檢視全部作品',
-    workLabel:  '索引 / 所有項目',
-    workTitle:  '設計作品',
-    newsLabel:  '新聞與展覽',
-    newsTitle:  '最新動態',
+    logoSub:      '建築作品集',
+    navWork:      '作品集',
+    navAbout:     '關於',
+    navNews:      '最新動態',
+    heroLabel:    '特選作品展示',
+    heroText:     '探索構造清晰度、空間邊界與環境適應力的建築設計碩士作品集。',
+    prev:         '上一案',
+    next:         '下一案',
+    viewAll:      '檢視全部',
+    viewProfile:  '查看個人簡介',
+    workLabelHome:'索引 / 精選項目',
+    workLabelAll: '索引 / 所有項目',
+    workTitleHome:'設計作品',
+    workTitleAll: '全部作品',
+    newsLabel:    '新聞與展覽',
+    newsTitle:    '最新動態',
     profileLabel: '個人簡歷與學歷',
     profileTitle: '個人簡介',
-    headEdu:    '教育背景',
-    headExp:    '經歷選列',
-    cvBtn:      '下載完整簡歷 (PDF) ↓',
-    modalYear:  '年份',
-    modalLoc:   '地點',
-    modalCollab:'合作對象',
-    modalOverview: '設計概念說明',
-    modalDrawings: '建築圖面與模型圖'
+    headEdu:      '教育背景',
+    headExp:      '經歷選列',
+    cvBtn:        '下載完整簡歷 (PDF) ↓',
+    cvSoon:       '簡歷即將提供。',
+    specYear:     '年份',
+    specLoc:      '地點',
+    specCollab:   '合作對象',
+    overview:     '設計概念說明',
+    drawings:     '建築圖面與模型圖',
+    backToWork:   '← 全部作品',
+    prevProject:  '← 上一個作品',
+    nextProject:  '下一個作品 →',
+    notFound:     '找不到此作品。',
+    figure:       '圖'
   }
 };
 
-/* ==========================================
-   04. PAGE DETECTION
-   ========================================== */
-const PAGE = document.body.dataset.page; // 'home' | 'about'
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
 
 /* ==========================================
-   05. CAROUSEL  (index.html)
+   04. CAROUSEL (home)
+   - 3 visible: centre card full size, side cards half hidden by the edges
+   - infinite loop, no autoplay
+   - hover overlay on the centre card only
+   - click side card → move it to the centre; click centre card → project page
    ========================================== */
+function carouselItems() {
+  return projectsData.slice(0, siteConfig.homeCarouselCount);
+}
+
 function renderCarousel() {
-  const track = document.getElementById('carousel-track');
-  if (!track) return;
-  track.innerHTML = '';
+  const viewport = document.getElementById('carousel-viewport');
+  if (!viewport) return;
+  const items = carouselItems();
+  if (activeCarouselIndex >= items.length) activeCarouselIndex = 0;
 
-  projectsData.forEach((proj, idx) => {
-    const card = document.createElement('div');
-    card.className = 'carousel-card' + (idx === activeCarouselIndex ? ' active' : '');
-    card.setAttribute('data-index', idx);
-    card.setAttribute('role', 'listitem');
-    card.innerHTML = projectVisual(proj.image, proj.primarySvgType, proj.title['en']);
-    card.addEventListener('click', () => {
-      if (idx === activeCarouselIndex) {
-        openProjectModal(proj.id);
-      } else {
+  viewport.innerHTML = '';
+  items.forEach((proj, idx) => {
+    const card = document.createElement('a');
+    card.className = 'carousel-card';
+    card.href = projectUrl(proj.id);
+    card.draggable = false;
+    card.setAttribute('aria-label', proj.title[currentLang]);
+    card.innerHTML = `
+      ${projectVisual(proj.image, proj.primarySvgType, proj.title[currentLang])}
+      <div class="card-overlay" aria-hidden="true">
+        <span class="overlay-meta">${proj.year} — ${proj.category[currentLang]}</span>
+        <h3 class="overlay-title">${proj.title[currentLang]}</h3>
+        <p class="overlay-summary">${proj.summary ? proj.summary[currentLang] : ''}</p>
+      </div>`;
+    card.addEventListener('click', e => {
+      if (idx !== activeCarouselIndex) {
+        e.preventDefault();             // side card: bring to centre instead of opening
         activeCarouselIndex = idx;
-        updateCarouselPosition();
+        layoutCarousel();
       }
+      // centre card: normal link → opens project page in the same window
     });
-    track.appendChild(card);
+    viewport.appendChild(card);
   });
 
-  updateCarouselPosition();
+  layoutCarousel();
 }
 
-function updateCarouselPosition() {
-  const track    = document.getElementById('carousel-track');
+function layoutCarousel() {
   const viewport = document.getElementById('carousel-viewport');
-  if (!track || !viewport) return;
+  if (!viewport) return;
+  const cards = viewport.querySelectorAll('.carousel-card');
+  const n = cards.length;
+  if (!n) return;
 
-  const cards = track.querySelectorAll('.carousel-card');
-  if (!cards.length) return;
+  const vw    = viewport.offsetWidth;
+  const cardW = cards[0].offsetWidth;
+  const scale = parseFloat(getComputedStyle(document.documentElement)
+                  .getPropertyValue('--carousel-side-scale')) || 0.86;
+  const gap   = Math.max(16, vw * 0.03);
 
-  cards.forEach((c, idx) => c.classList.toggle('active', idx === activeCarouselIndex));
+  // Side card centre sits on the viewport edge (half hidden),
+  // unless the screen is too narrow — then keep a minimum gap.
+  const sideX = Math.max(vw / 2, cardW * (1 + scale) / 2 + gap);
 
-  const cardWidth    = cards[0].offsetWidth;
-  const gapVal       = parseFloat(getComputedStyle(document.documentElement)
-                         .getPropertyValue('--carousel-gap')) || 24;
-  const viewportWidth = viewport.offsetWidth;
-  const offset = activeCarouselIndex * (cardWidth + gapVal) - viewportWidth / 2 + cardWidth / 2;
-  track.style.transform = `translateX(${-offset}px)`;
+  cards.forEach((card, idx) => {
+    // circular offset from the active card: ..., -2, -1, 0, 1, 2, ...
+    let off = ((idx - activeCarouselIndex) % n + n) % n;
+    if (off > n / 2) off -= n;
+    const abs = Math.abs(off);
 
-  const counter = document.getElementById('carousel-counter');
-  if (counter) counter.textContent = `0${activeCarouselIndex + 1} / 0${projectsData.length}`;
+    let x = 0;
+    if (abs === 1) x = Math.sign(off) * sideX;
+    if (abs >= 2)  x = Math.sign(off) * (sideX + cardW);   // parked off-screen
+
+    card.style.transform = `translateX(calc(-50% + ${x}px)) scale(${off === 0 ? 1 : scale})`;
+    card.style.zIndex = off === 0 ? 3 : (abs === 1 ? 2 : 1);
+    card.classList.toggle('active', off === 0);
+    card.classList.toggle('is-hidden', abs >= 2);
+    card.tabIndex = abs >= 2 ? -1 : 0;
+    card.setAttribute('aria-hidden', abs >= 2 ? 'true' : 'false');
+    card.setAttribute('aria-current', off === 0 ? 'true' : 'false');
+  });
+
+  updateCarouselCaption();
+}
+
+/* Caption below the carousel (shown on touch devices only, via CSS) */
+function updateCarouselCaption() {
+  const caption = document.getElementById('carousel-caption');
+  const proj = carouselItems()[activeCarouselIndex];
+  if (!caption || !proj) return;
+  caption.innerHTML = `
+    <div class="overlay-meta">${proj.year} — ${proj.category[currentLang]}</div>
+    <div class="overlay-title">${proj.title[currentLang]}</div>`;
+}
+
+function moveCarousel(step) {
+  const n = carouselItems().length;
+  if (!n) return;
+  activeCarouselIndex = (activeCarouselIndex + step + n) % n;
+  layoutCarousel();
+}
+
+function initCarouselControls() {
+  const prevBtn  = document.getElementById('prev-btn');
+  const nextBtn  = document.getElementById('next-btn');
+  const viewport = document.getElementById('carousel-viewport');
+
+  if (prevBtn) prevBtn.addEventListener('click', () => moveCarousel(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => moveCarousel(1));
+
+  // Keyboard arrows when the carousel has focus
+  if (viewport) {
+    viewport.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  { moveCarousel(-1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { moveCarousel(1);  e.preventDefault(); }
+    });
+
+    // Touch swipe
+    let startX = null;
+    viewport.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    viewport.addEventListener('touchend', e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) moveCarousel(dx < 0 ? 1 : -1);
+      startX = null;
+    });
+  }
+
+  window.addEventListener('resize', layoutCarousel);
 }
 
 /* ==========================================
-   06. WORK GALLERY  (index.html)
+   05. WORK GRID (home preview: first N / work page: all)
    ========================================== */
-function renderGallery() {
+function renderWorkGrid(list) {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
-  grid.innerHTML = '';
-
-  projectsData.forEach(proj => {
-    const card = document.createElement('div');
-    card.className = 'gallery-card';
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', 'Open: ' + proj.title[currentLang]);
-    card.innerHTML = `
+  grid.innerHTML = list.map(proj => `
+    <a class="gallery-card" href="${projectUrl(proj.id)}">
       <div class="gallery-thumb">
         ${projectVisual(proj.image, proj.primarySvgType, proj.title[currentLang])}
       </div>
       <div class="gallery-meta">
-        <span class="tag">${proj.category[currentLang]}</span>
+        <span class="tag">${proj.category[currentLang]} | ${proj.year}</span>
         <h3>${proj.title[currentLang]}</h3>
-        <div class="info">
-          <span>${proj.location[currentLang]}</span>
-          <span>${proj.year}</span>
-        </div>
-      </div>`;
-    const open = () => openProjectModal(proj.id);
-    card.addEventListener('click', open);
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(); });
-    grid.appendChild(card);
-  });
+      </div>
+    </a>`).join('');
 }
 
 /* ==========================================
-   07. NEWS SECTION  (both pages)
+   06. NEWS (home preview: latest N / news page: all)
    ========================================== */
-function renderNews() {
+function renderNews(list) {
   const container = document.getElementById('news-timeline');
   if (!container) return;
-  container.innerHTML = '';
-
-  newsData.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'news-item';
-    el.innerHTML = `
+  container.innerHTML = list.map(item => `
+    <div class="news-item">
       <div class="news-date">${item.date}</div>
       <div class="news-content">
         <h3>${item.title[currentLang]}</h3>
         <p>${item.desc[currentLang]}</p>
-      </div>`;
-    container.appendChild(el);
-  });
+      </div>
+    </div>`).join('');
 }
 
 /* ==========================================
-   08. ABOUT / PROFILE  (about.html)
+   07. PROFILE (home preview + about page)
    ========================================== */
+function renderBio() {
+  setText('profile-bio-main', aboutData.bio    ? aboutData.bio[currentLang]    : '');
+  setText('profile-bio-sub',  aboutData.bioSub ? aboutData.bioSub[currentLang] : '');
+}
+
 function renderAbout() {
   const t = uiText[currentLang];
-
-  // Bio paragraphs
-  const bioMain = document.getElementById('profile-bio-main');
-  const bioSub  = document.getElementById('profile-bio-sub');
-  if (bioMain) bioMain.textContent = aboutData.bio    ? aboutData.bio[currentLang]    : '';
-  if (bioSub)  bioSub.textContent  = aboutData.bioSub ? aboutData.bioSub[currentLang] : '';
+  renderBio();
 
   // CV button
   const cvBtn = document.getElementById('cv-btn');
@@ -283,200 +378,207 @@ function renderAbout() {
     cvBtn.textContent = t.cvBtn;
     if (aboutData.cvFile) {
       cvBtn.href = aboutData.cvFile;
-      cvBtn.removeAttribute('onclick');
+      cvBtn.onclick = null;
     } else {
       cvBtn.href = '#';
-      cvBtn.onclick = () => { alert('CV coming soon.'); return false; };
+      cvBtn.onclick = () => { alert(t.cvSoon); return false; };
     }
   }
 
-  // Education list
+  const credHtml = entry => `
+    <li class="cred-item">
+      <span class="year">${entry.years}</span>
+      <span class="title">${entry.title[currentLang]}</span>
+      <span class="institution">${entry.institution[currentLang]}</span>
+    </li>`;
+
   const eduList = document.getElementById('edu-list');
-  if (eduList && aboutData.education) {
-    eduList.innerHTML = aboutData.education.map(entry => `
-      <li class="cred-item">
-        <span class="year">${entry.years}</span>
-        <span class="title">${entry.title[currentLang]}</span>
-        <span class="institution">${entry.institution[currentLang]}</span>
-      </li>`).join('');
-  }
+  if (eduList && aboutData.education) eduList.innerHTML = aboutData.education.map(credHtml).join('');
 
-  // Experience list
   const expList = document.getElementById('exp-list');
-  if (expList && aboutData.experience) {
-    expList.innerHTML = aboutData.experience.map(entry => `
-      <li class="cred-item">
-        <span class="year">${entry.years}</span>
-        <span class="title">${entry.title[currentLang]}</span>
-        <span class="institution">${entry.institution[currentLang]}</span>
-      </li>`).join('');
-  }
+  if (expList && aboutData.experience) expList.innerHTML = aboutData.experience.map(credHtml).join('');
 
-  // Section headings from uiText
-  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  setText('profile-label', t.profileLabel);
-  setText('profile-title', t.profileTitle);
   setText('head-edu', t.headEdu);
   setText('head-exp', t.headExp);
 }
 
 /* ==========================================
-   09. PROJECT MODAL  (index.html)
+   08. PROJECT PAGE (project.html?id=...)
    ========================================== */
-function openProjectModal(id) {
-  const proj   = projectsData.find(p => p.id === id);
-  const target = document.getElementById('modal-content-target');
-  const dialog = document.getElementById('project-modal');
-  if (!proj || !target || !dialog) return;
+function renderProjectPage() {
+  const target = document.getElementById('project-page');
+  if (!target) return;
+  const t   = uiText[currentLang];
+  const id  = new URLSearchParams(window.location.search).get('id');
+  const idx = projectsData.findIndex(p => p.id === id);
 
-  const t = uiText[currentLang];
-
-  // Resolve gallery visuals dynamically (supports arbitrary number of images)
-  const imgs = (proj.galleryImages || []).filter(Boolean);
-  let galleryHtml = '';
-
-  if (imgs.length > 0) {
-    galleryHtml = imgs.map((imgSrc, idx) => `
-      <div class="modal-img-wrapper">
-        <img src="${imgSrc}" alt="${proj.title[currentLang]} - FIG 1.${idx + 1}" loading="lazy" style="width:100%;height:auto;display:block;">
-        <div class="modal-img-caption">FIG 1.${idx + 1} — Architectural Drawing / Rendering</div>
-      </div>`).join('');
-  } else {
-    // Fallback: 2 architectural SVGs
-    galleryHtml = `
-      <div class="modal-img-wrapper">
-        ${generateArchitecturalSvg(proj.primarySvgType, '#0a7e8c', 'PRIMARY TECTONIC RENDERING')}
-        <div class="modal-img-caption">FIG 1.1 — Isometric Structural Rendering</div>
-      </div>
-      <div class="modal-img-wrapper">
-        ${generateArchitecturalSvg(proj.plansSvgType, '#141414', 'ARCHITECTURAL PLAN / SECTION')}
-        <div class="modal-img-caption">FIG 1.2 — Transverse Section &amp; Detailed Threshold</div>
+  if (idx === -1) {
+    target.innerHTML = `
+      <div class="project-not-found">
+        <a class="project-back" href="work.html">${t.backToWork}</a>
+        <p>${t.notFound}</p>
       </div>`;
+    return;
+  }
+
+  const proj = projectsData[idx];
+  document.title = `${proj.title[currentLang]} — Y.H. LIN Architecture`;
+
+  // Gallery: any number of images; SVG fallback if none
+  const imgs = (proj.galleryImages || []).filter(Boolean);
+  let galleryHtml;
+  if (imgs.length > 0) {
+    galleryHtml = imgs.map((src, i) => `
+      <figure class="project-img-wrapper">
+        <img src="${src}" alt="${proj.title[currentLang]} — ${t.figure} ${i + 1}" loading="lazy">
+        <figcaption class="project-img-caption">${t.figure} 1.${i + 1}</figcaption>
+      </figure>`).join('');
+  } else {
+    galleryHtml = `
+      <figure class="project-img-wrapper">
+        ${generateArchitecturalSvg(proj.primarySvgType, '#0a7e8c', 'PRIMARY TECTONIC RENDERING')}
+        <figcaption class="project-img-caption">${t.figure} 1.1</figcaption>
+      </figure>
+      <figure class="project-img-wrapper">
+        ${generateArchitecturalSvg(proj.plansSvgType, '#141414', 'ARCHITECTURAL PLAN / SECTION')}
+        <figcaption class="project-img-caption">${t.figure} 1.2</figcaption>
+      </figure>`;
+  }
+
+  // Previous / next project (loops around)
+  const n = projectsData.length;
+  let pagerHtml = '';
+  if (n > 1) {
+    const prev = projectsData[(idx - 1 + n) % n];
+    const next = projectsData[(idx + 1) % n];
+    pagerHtml = `
+      <nav class="project-pager" aria-label="Project navigation">
+        <a class="prev" href="${projectUrl(prev.id)}">
+          <span class="pager-label">${t.prevProject}</span>
+          <span class="pager-title">${prev.title[currentLang]}</span>
+        </a>
+        <a class="next" href="${projectUrl(next.id)}">
+          <span class="pager-label">${t.nextProject}</span>
+          <span class="pager-title">${next.title[currentLang]}</span>
+        </a>
+      </nav>`;
   }
 
   target.innerHTML = `
-    <div class="modal-header-meta">
+    <a class="project-back" href="work.html">${t.backToWork}</a>
+    <header class="project-header">
       <span class="tag">${proj.category[currentLang]}</span>
-      <h2>${proj.title[currentLang]}</h2>
-      <div class="modal-specs-grid">
-        <div class="spec-item"><label>${t.modalYear}</label><div>${proj.year}</div></div>
-        <div class="spec-item"><label>${t.modalLoc}</label><div>${proj.location[currentLang]}</div></div>
-        <div class="spec-item"><label>${t.modalCollab}</label><div>${proj.collaborators[currentLang]}</div></div>
+      <h1>${proj.title[currentLang]}</h1>
+      <div class="project-specs-grid">
+        <div class="spec-item"><span class="spec-label">${t.specYear}</span><div>${proj.year}</div></div>
+        <div class="spec-item"><span class="spec-label">${t.specLoc}</span><div>${proj.location[currentLang]}</div></div>
+        <div class="spec-item"><span class="spec-label">${t.specCollab}</span><div>${proj.collaborators[currentLang]}</div></div>
       </div>
-    </div>
-    <div class="modal-body">
-      <div>
-        <h4 class="modal-overview-heading">${t.modalOverview}</h4>
-        <p class="modal-description">${proj.desc[currentLang]}</p>
+    </header>
+    <div class="project-body">
+      <div class="project-text">
+        <h2 class="project-subheading">${t.overview}</h2>
+        <p class="project-description">${proj.desc[currentLang]}</p>
       </div>
-      <div class="modal-gallery-stack">
-        <h4 class="modal-drawings-heading">${t.modalDrawings}</h4>
+      <div class="project-gallery-stack">
+        <h2 class="project-subheading">${t.drawings}</h2>
         ${galleryHtml}
       </div>
-    </div>`;
-
-  dialog.showModal();
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  const dialog = document.getElementById('project-modal');
-  if (dialog && dialog.open) {
-    dialog.close();
-    document.body.style.overflow = '';
-  }
+    </div>
+    ${pagerHtml}`;
 }
 
 /* ==========================================
-   10. LANGUAGE TOGGLE
+   09. RENDER CURRENT PAGE + LANGUAGE
    ========================================== */
-function applyLanguage(lang) {
-  currentLang = lang;
-  const t = uiText[lang];
+function renderPage() {
+  const t = uiText[currentLang];
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant' : 'en';
 
-  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  // Shared header
   setText('logo-sub',  t.logoSub);
   setText('nav-work',  t.navWork);
   setText('nav-about', t.navAbout);
   setText('nav-news',  t.navNews);
 
   if (PAGE === 'home') {
-    setText('hero-label',     t.heroLabel);
-    setText('hero-text',      t.heroText);
-    setText('label-prev',     t.prev);
-    setText('label-next',     t.next);
-    setText('label-view-all', t.viewAll);
-    setText('work-label',     t.workLabel);
-    setText('work-title',     t.workTitle);
-    setText('news-label',     t.newsLabel);
-    setText('news-title',     t.newsTitle);
-    renderGallery();
-    renderNews();
+    setText('hero-label', t.heroLabel);
+    setText('hero-text',  t.heroText);
+    setText('label-prev', t.prev);
+    setText('label-next', t.next);
+    setText('work-label', t.workLabelHome);
+    setText('work-title', t.workTitleHome);
+    setText('label-view-all-work', t.viewAll);
+    setText('profile-label', t.profileLabel);
+    setText('profile-title', t.profileTitle);
+    setText('label-view-profile', t.viewProfile);
+    setText('news-label', t.newsLabel);
+    setText('news-title', t.newsTitle);
+    setText('label-view-all-news', t.viewAll);
+
+    renderCarousel();
+    renderWorkGrid(projectsData.slice(0, siteConfig.homeWorkCount));
+    renderBio();
+    renderNews(newsData.slice(0, siteConfig.homeNewsCount));
+  }
+
+  if (PAGE === 'work') {
+    setText('work-label', t.workLabelAll);
+    setText('work-title', t.workTitleAll);
+    renderWorkGrid(projectsData);
   }
 
   if (PAGE === 'about') {
+    setText('profile-label', t.profileLabel);
+    setText('profile-title', t.profileTitle);
+    renderAbout();
+  }
+
+  if (PAGE === 'news') {
     setText('news-label', t.newsLabel);
     setText('news-title', t.newsTitle);
-    renderAbout();
-    renderNews();
+    renderNews(newsData);
+  }
+
+  if (PAGE === 'project') {
+    renderProjectPage();
   }
 }
 
-/* ==========================================
-   11. INIT — fetch all data then render
-   ========================================== */
-document.addEventListener('DOMContentLoaded', () => {
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);   // remembered across pages
+  renderPage();
+}
 
-  // Language toggle wired up immediately (both pages)
+/* ==========================================
+   10. INIT — fetch all data, then render
+   ========================================== */
+function fetchJson(path, fallback) {
+  return fetch(path)
+    .then(r => (r.ok ? r.json() : fallback))
+    .catch(() => fallback);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   const langBtn = document.getElementById('lang-toggle-btn');
   if (langBtn) langBtn.addEventListener('click', () =>
     applyLanguage(currentLang === 'en' ? 'zh' : 'en'));
 
-  // Fetch all three JSON files in parallel
   Promise.all([
-    fetch('data/projects.json').then(r => r.json()),
-    fetch('data/news.json').then(r => r.json()),
-    fetch('data/about.json').then(r => r.json())
+    fetchJson('data/projects.json', []),
+    fetchJson('data/news.json', []),
+    fetchJson('data/about.json', {}),
+    fetchJson('data/site.json', {})
   ])
-  .then(([projects, news, about]) => {
+  .then(([projects, news, about, site]) => {
     projectsData = projects;
     newsData     = news;
     aboutData    = about;
+    siteConfig   = Object.assign(siteConfig, site);
 
-    /* ---- HOME PAGE ---- */
-    if (PAGE === 'home') {
-      renderCarousel();
-      renderGallery();
-      renderNews();
-
-      const prevBtn = document.getElementById('prev-btn');
-      const nextBtn = document.getElementById('next-btn');
-      if (prevBtn) prevBtn.addEventListener('click', () => {
-        activeCarouselIndex = (activeCarouselIndex - 1 + projectsData.length) % projectsData.length;
-        updateCarouselPosition();
-      });
-      if (nextBtn) nextBtn.addEventListener('click', () => {
-        activeCarouselIndex = (activeCarouselIndex + 1) % projectsData.length;
-        updateCarouselPosition();
-      });
-
-      const viewAllBtn = document.getElementById('btn-view-all');
-      if (viewAllBtn) viewAllBtn.addEventListener('click', () =>
-        document.getElementById('work').scrollIntoView({ behavior: 'smooth' }));
-
-      const closeBtn = document.getElementById('modal-close-btn');
-      const dialog   = document.getElementById('project-modal');
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (dialog)   dialog.addEventListener('click', e => { if (e.target === dialog) closeModal(); });
-
-      window.addEventListener('resize', updateCarouselPosition);
-    }
-
-    /* ---- ABOUT PAGE ---- */
-    if (PAGE === 'about') {
-      renderAbout();
-      renderNews();
-    }
+    if (PAGE === 'home') initCarouselControls();
+    renderPage();
   })
   .catch(err => console.error('Failed to load data files:', err));
 });
