@@ -1,0 +1,72 @@
+[
+  {
+    "id": "project-01",
+    "year": "2026",
+    "category": { "en": "THESIS / URBAN RESILIENCE", "zh": "碩士畢業論文 / 城市韌性" },
+    "title": { "en": "Hydrological Thresholds", "zh": "水文交界處：極端氣候防洪聚落" },
+    "location": { "en": "Taipei Basin, Taiwan", "zh": "台灣台北盆地" },
+    "collaborators": { "en": "Solo Thesis Project", "zh": "個人畢業設計" },
+    "desc": {
+      "en": "A strategic architectural intervention responding to rising sea levels and river basin surges. The design integrates dynamic wetland filtration, elevated modular timber housing, and public water retention plazas to form a resilient urban edge.",
+      "zh": "本案為針對海平面上升與流域暴漲設計的策略性建築干預。整合動態濕地過濾、高架模組化木造住宅與公共蓄水廣場，形塑具韌性的城市邊緣空間。"
+    },
+    "primarySvgType": "structure",
+    "plansSvgType": "diagram"
+  },
+  {
+    "id": "project-02",
+    "year": "2025",
+    "category": { "en": "ACADEMIC / CULTURAL", "zh": "學術設計 / 文化建築" },
+    "title": { "en": "Monolith & Void Pavilion", "zh": "巨石與留白：沉思展覽館" },
+    "location": { "en": "Kyoto, Japan", "zh": "日本京都" },
+    "collaborators": { "en": "Studio Prof. K. Sato", "zh": "指導教授 佐藤健一" },
+    "desc": {
+      "en": "An exploration into massive earth construction combined with monolithic basalt volumes. The building creates light shaft apertures that highlight shifting shadow geometries across raw concrete and local stone surfaces throughout the seasons.",
+      "zh": "探索厚重土造結構與單體玄武岩體量結合的可能。建築開口引入細長光束，隨季節更迭在清水混凝土與在地石材表面描繪光影軌跡。"
+    },
+    "primarySvgType": "monolith",
+    "plansSvgType": "section"
+  },
+  {
+    "id": "project-03",
+    "year": "2025",
+    "category": { "en": "RESEARCH / HOUSING", "zh": "專題研究 / 集合住宅" },
+    "title": { "en": "Subtropical Timber Housing", "zh": "亞熱帶積層木造高層住宅" },
+    "location": { "en": "Tainan, Taiwan", "zh": "台灣台南" },
+    "collaborators": { "en": "Sustainable Material Lab", "zh": "永續材料研究室" },
+    "desc": {
+      "en": "High-density residential tower built using Cross-Laminated Timber (CLT) sourced from sustainable local forestry. Features deep double-skin balconies engineered for natural cross-ventilation and solar shielding.",
+      "zh": "採用國產永續林業之直交集成材（CLT）構建的高密度住宅塔樓。配置深陽台雙層皮層系統，為亞熱帶氣候提供高效自然通風與遮陽。"
+    },
+    "primarySvgType": "timber",
+    "plansSvgType": "elevation"
+  },
+  {
+    "id": "project-04",
+    "year": "2024",
+    "category": { "en": "COMPETITION / FIRST PRIZE", "zh": "競賽首獎 / 產業遺構" },
+    "title": { "en": "Silicone Silo Adaptive Reuse", "zh": "矽晶筒倉再利用：光電研發基地" },
+    "location": { "en": "Kaohsiung, Taiwan", "zh": "台灣高雄" },
+    "collaborators": { "en": "Team Lead w/ C. H. Chen", "zh": "團隊負責人（與陳智浩合作）" },
+    "desc": {
+      "en": "Adaptive conversion of disused industrial grain silos into a clean energy innovation lab and public sky garden. Lightweight steel trusses bridge the cylindrical concrete towers, creating dramatic interior atrium spaces.",
+      "zh": "將廢棄工業糧倉改造為清潔能源創新實驗室與空中花園。輕量鋼桁架架設於圓柱混凝土塔之間，創造具震撼力的內部中庭空間。"
+    },
+    "primarySvgType": "silo",
+    "plansSvgType": "diagram"
+  },
+  {
+    "id": "project-05",
+    "year": "2024",
+    "category": { "en": "INSTALLATION / EXHIBITION", "zh": "裝置藝術 / 展覽空間" },
+    "title": { "en": "Pneumatic Membrane Canopy", "zh": "氣膜結構遮棚：臨時聚會空間" },
+    "location": { "en": "Venice Biennale Collateral", "zh": "威尼斯雙年展平行展" },
+    "collaborators": { "en": "Inflatable Fabrication Group", "zh": "氣動構築小組" },
+    "desc": {
+      "en": "An ultra-lightweight inflatable pavilion constructed from translucent recycled ETFE membranes. Responding to real-time wind patterns, the canopy subtly expands and contracts, simulating a breathing architectural skin.",
+      "zh": "採用半透明回收ETFE膜材打造的超輕量氣動展館。響應即時風場變化，膜體進行細微舒張與收縮，模擬會呼吸的建築皮膚。"
+    },
+    "primarySvgType": "membrane",
+    "plansSvgType": "section"
+  }
+]

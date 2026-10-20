@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Y.H. LIN Architecture</title>
+  <meta name="description" content="Biography and credentials of Yuan-Hao Lin, architecture researcher and designer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="about">
+
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="index.html" class="brand-logo" aria-label="Y.H. Lin Architecture — home">
+      <span>Y.H. LIN</span>
+      <span class="sub" id="logo-sub">ARCHITECTURE</span>
+    </a>
+    <div class="nav-container">
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="index.html#work" id="nav-work">WORK</a></li>
+          <li><a href="about.html"      id="nav-about" class="active">ABOUT</a></li>
+          <li><a href="#news"           id="nav-news">NEWS</a></li>
+        </ul>
+      </nav>
+      <button class="lang-btn" id="lang-toggle-btn" aria-label="Toggle language between English and Chinese">EN / 中文</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 01. PROFILE / BIOGRAPHY -->
+    <section id="profile" aria-labelledby="profile-title">
+      <span class="section-label" id="profile-label">BIOGRAPHY &amp; CREDENTIALS</span>
+      <h1 class="section-title" id="profile-title">Profile</h1>
+
+      <div class="profile-layout">
+
+        <!-- Bio column -->
+        <div>
+          <p class="profile-bio-main" id="profile-bio-main">
+            Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.
+          </p>
+          <p class="profile-sub-text" id="profile-bio-sub">
+            Having completed M.Arch studies with distinction, his work investigates the intersection between precise structural engineering and soft environmental boundaries. Prior to graduate research, he worked with award-winning practices on public cultural centers and experimental housing prototypes.
+          </p>
+          <a href="#" class="cv-download-btn" id="cv-btn"
+             aria-label="Download full CV as PDF"
+             onclick="alert('CV download coming soon.'); return false;">
+            DOWNLOAD FULL CV (PDF) ↓
+          </a>
+        </div>
+
+        <!-- Credentials column -->
+        <aside class="profile-credentials" aria-label="Education and experience">
+
+          <div class="cred-group">
+            <h2 id="head-edu">EDUCATION</h2>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="year">2024 — 2026</span>
+                <span class="title" id="edu-1-title">Master of Architecture (M.Arch I)</span>
+                <span class="institution" id="edu-1-inst">Graduate School of Design / Thesis Distinction</span>
+              </li>
+              <li class="cred-item">
+                <span class="year">2018 — 2023</span>
+                <span class="title" id="edu-2-title">Bachelor of Science in Architectural Design</span>
+                <span class="institution" id="edu-2-inst">Department of Architecture / First Class Honors</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="cred-group">
+            <h2 id="head-exp">SELECTED EXPERIENCE</h2>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="year">2023 — 2024</span>
+                <span class="title" id="exp-1-title">Architectural Assistant &amp; Researcher</span>
+                <span class="institution">Atelier Tectonic Space, Taipei</span>
+              </li>
+              <li class="cred-item">
+                <span class="year">2022</span>
+                <span class="title" id="exp-2-title">Design Intern</span>
+                <span class="institution">Kengo Kuma &amp; Associates, Tokyo</span>
+              </li>
+            </ul>
+          </div>
+
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02. NEWS -->
+    <section id="news" aria-labelledby="news-title">
+      <span class="section-label" id="news-label">UPDATES &amp; PRESS</span>
+      <h2 class="section-title" id="news-title">News</h2>
+      <div class="news-timeline" id="news-timeline" aria-label="News and press">
+        <!-- Rendered via script.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2026 Y.H. LIN ARCHITECTURE. ALL RIGHTS RESERVED.</div>
+    <div><a href="index.html" style="color:inherit;text-decoration:none;">← BACK TO PORTFOLIO</a></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

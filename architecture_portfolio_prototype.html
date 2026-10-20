@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STUDIO LIN — Architecture Portfolio</title>
+  <!-- Google Fonts for Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & TOKENS
+       ========================================================================== */
+    :root {
+      /* Direction A: Minimal Off-White Editorial with Teal Accent */
+      --bg-primary: #f8f8f6;
+      --bg-surface: #f1f0ec;
+      --bg-modal: rgba(248, 248, 246, 0.96);
+      --text-main: #141414;
+      --text-muted: #737373;
+      --border-color: #141414;
+      --border-light: rgba(20, 20, 20, 0.12);
+      --accent-teal: #0a7e8c;
+      --accent-teal-hover: #075b65;
+      
+      --font-sans: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --header-height: 72px;
+      --gutter: clamp(1.25rem, 4vw, 3.5rem);
+      --border-radius: 0px; /* Crisp architectural edges */
+      
+      --carousel-card-size: min(520px, 68vw);
+      --carousel-gap: clamp(1rem, 3vw, 2.5rem);
+      --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Direction B Override Theme (Toggled via JS) */
+    body.direction-b {
+      --bg-primary: #eeedeb;
+      --bg-surface: #e4e2de;
+      --text-main: #0b1116;
+      --text-muted: #5e6871;
+      --border-color: #0b1116;
+      --border-light: rgba(11, 17, 22, 0.2);
+      --accent-teal: #1a4d62; /* Darker slate cyan */
+      --accent-teal-hover: #0f3241;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* ==========================================================================
+       PROTOTYPE UTILITY BAR (Direction Switcher)
+       ========================================================================== */
+    .proto-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: #141414;
+      color: #f8f8f6;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--gutter);
+      z-index: 1000;
+      letter-spacing: 0.05em;
+    }
+
+    .proto-bar button {
+      background: var(--accent-teal);
+      border: none;
+      color: #fff;
+      padding: 2px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: background 0.2s;
+    }
+
+    .proto-bar button:hover {
+      background: #25a4b4;
+    }
+
+    /* ==========================================================================
+       HEADER / NAVIGATION
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 32px; /* Accommodate prototype bar */
+      left: 0;
+      width: 100%;
+      height: var(--header-height);
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--gutter);
+      z-index: 900;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    .brand-logo {
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .brand-logo .sub {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: clamp(1.2rem, 2.5vw, 2.2rem);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      padding: 4px 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1.5px;
+      background-color: var(--accent-teal);
+      transition: width 0.25s var(--transition-smooth);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      background: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    /* ==========================================================================
+       MAIN LAYOUT & ASYMMETRIC EDITORIAL SECTIONS
+       ========================================================================== */
+    main {
+      padding-top: 32px;
+    }
+
+    section {
+      padding: clamp(3rem, 6vw, 6rem) var(--gutter);
+      scroll-margin-top: calc(var(--header-height) + 32px);
+    }
+
+    /* Section Headers */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin-bottom: 2.5rem;
+      line-height: 1.15;
+    }
+
+    /* ==========================================================================
+       01. FEATURED CAROUSEL SECTION (HOME)
+       ========================================================================== */
+    #home {
+      padding: 2.5rem 0 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editorial-hero-meta {
+      padding: 0 var(--gutter);
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: flex-end;
+    }
+
+    .hero-intro-text {
+      max-width: 540px;
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      font-weight: 300;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .carousel-stage {
+      position: relative;
+      width: 100%;
+      padding: 1rem 0 4.5rem 0; /* Space for bottom controls */
+    }
+
+    .carousel-viewport {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+    }
+
+    .carousel-viewport:active {
+      cursor: grabbing;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: var(--carousel-gap);
+      will-change: transform;
+      transition: transform 0.5s var(--transition-smooth);
+      align-items: center;
+    }
+
+    /* Square Framing & Pure Imagery */
+    .carousel-card {
+      flex: 0 0 var(--carousel-card-size);
+      aspect-ratio: 1 / 1;
+      position: relative;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      overflow: hidden;
+      user-select: none;
+      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Dim and slightly shrink non-active neighboring cards */
+    .carousel-card:not(.active) {
+      opacity: 0.45;
+      transform: scale(0.92);
+      filter: grayscale(30%);
+    }
+
+    .carousel-card.active {
+      opacity: 1;
+      transform: scale(1);
+      filter: grayscale(0%);
+    }
+
+    .carousel-card img,
+    .carousel-card svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Click indicator hover state on active card */
+    .carousel-card.active::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 126, 140, 0.08);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 2;
+    }
+
+    .carousel-card.active:hover::before {
+      opacity: 1;
+    }
+
+    /* Controls positioned at extreme bottom corners */
+    .carousel-controls {
+      position: absolute;
+      bottom: 0;
+      left: var(--gutter);
+      right: var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .carousel-btn {
+      pointer-events: auto;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .carousel-btn:hover {
+      background: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    .carousel-counter {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* SPA View All Button Area */
+    .view-all-container {
+      padding: 1.5rem var(--gutter) 0 var(--gutter);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-view-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--text-main);
+      color: var(--bg-primary);
+      padding: 14px 28px;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--text-main);
+      cursor: pointer;
+      transition: all 0.25s var(--transition-smooth);
+    }
+
+    .btn-view-all:hover {
+      background: var(--accent-teal);
+      border-color: var(--accent-teal);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       02. WORK (GALLERY - SPA TOGGLED OR NAVIGATED)
+       ========================================================================== */
+    #work {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .gallery-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-teal);
+    }
+
+    .gallery-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .gallery-thumb svg,
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-card:hover .gallery-thumb svg,
+    .gallery-card:hover .gallery-thumb img {
+      transform: scale(1.04);
+    }
+
+    .gallery-meta {
+      padding: 1.2rem;
+    }
+
+    .gallery-meta .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .gallery-meta h3 {
+      font-size: 1.15rem;
+      font-weight: 400;
+      margin: 4px 0 8px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .gallery-meta .info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ==========================================================================
+       03. PROFILE SECTION (TEXT-LED EDITORIAL - NO PHOTO)
+       ========================================================================== */
+    #profile {
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-primary);
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+    }
+
+    .profile-bio-main {
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 2rem;
+    }
+
+    .profile-sub-text {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .cv-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+    }
+
+    .cv-download-btn:hover {
+      background: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    .profile-credentials {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .cred-group h4 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .cred-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cred-item {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+    }
+
+    .cred-item .year {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .cred-item .title {
+      font-weight: 500;
+    }
+
+    .cred-item .institution {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ==========================================================================
+       04. NEWS SECTION
+       ========================================================================== */
+    #news {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .news-timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--border-light);
+      gap: 2rem;
+    }
+
+    .news-item:first-child {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .news-date {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+      letter-spacing: 0.05em;
+    }
+
+    .news-content h3 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+
+    .news-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 680px;
+    }
+
+    /* ==========================================================================
+       PROJECT DETAIL MODAL
+       ========================================================================== */
+    .project-modal {
+      border: none;
+      background: transparent;
+      padding: 0;
+      max-width: 100vw;
+      max-height: 100vh;
+      width: 100%;
+      height: 100%;
+      color: var(--text-main);
+      overflow: hidden;
+    }
+
+    .project-modal::backdrop {
+      background: rgba(15, 15, 15, 0.75);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-inner {
+      background: var(--bg-primary);
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: clamp(2rem, 5vw, 4rem) var(--gutter);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-close-btn {
+      position: fixed;
+      top: calc(32px + 1.5rem);
+      right: var(--gutter);
+      background: var(--text-main);
+      color: var(--bg-primary);
+      border: none;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--accent-teal);
+    }
+
+    .modal-header-meta {
+      margin-bottom: 2.5rem;
+      max-width: 900px;
+    }
+
+    .modal-header-meta .tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .modal-header-meta h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      margin: 0.5rem 0 1.5rem 0;
+      line-height: 1.1;
+    }
+
+    .modal-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.85rem;
+    }
+
+    .spec-item label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      margin-top: 2rem;
+    }
+
+    .modal-description {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
+    .modal-gallery-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .modal-img-wrapper {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+    }
+
+    .modal-img-wrapper svg,
+    .modal-img-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .modal-img-caption {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 0.5rem 0;
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .site-footer {
+      border-top: 1px solid var(--border-light);
+      padding: 3rem var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+      .modal-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .site-header {
+        padding: 0 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+      }
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+      .editorial-hero-meta {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .carousel-btn {
+        padding: 8px 14px;
+        font-size: 0.7rem;
+      }
+      .news-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      .site-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PROTOTYPE CONTROLLER BAR -->
+  <div class="proto-bar">
+    <span>SPEC: ARCHITECTURE PORTFOLIO v1.0</span>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <span id="dir-indicator" style="opacity: 0.8;">DIRECTION A (Off-White & Teal)</span>
+      <button id="toggle-dir-btn">SWITCH TO DIRECTION B</button>
+    </div>
+  </div>
+
+  <!-- SITE HEADER (No HOME link, logo goes home) -->
+  <header class="site-header">
+    <a href="#home" class="brand-logo" id="logo-link">
+      <span>Y.H. LIN</span>
+      <span class="sub" id="logo-sub">ARCHITECTURE</span>
+    </a>
+    
+    <div class="nav-container">
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#work" data-nav="work" id="nav-work">WORK</a></li>
+          <li><a href="#profile" data-nav="profile" id="nav-profile">PROFILE</a></li>
+          <li><a href="#news" data-nav="news" id="nav-news">NEWS</a></li>
+        </ul>
+      </nav>
+      <button class="lang-btn" id="lang-toggle-btn" aria-label="Toggle Language">EN / 中文</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 01. FEATURED CAROUSEL SECTION (HOME) -->
+    <section id="home">
+      <div class="editorial-hero-meta">
+        <div>
+          <span class="section-label" id="hero-label">01 / FEATURED PORTFOLIO</span>
+          <p class="hero-intro-text" id="hero-text">
+            Graduate portfolio exploring tectonic clarity, spatial thresholds, and environmental adaptability through architectural synthesis.
+          </p>
+        </div>
+      </div>
+
+      <!-- Carousel Stage -->
+      <div class="carousel-stage">
+        <div class="carousel-viewport" id="carousel-viewport">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Dynamically Rendered Square Cards -->
+          </div>
+        </div>
+
+        <!-- Carousel Controls at extreme bottom corners -->
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="prev-btn" aria-label="Previous Slide">
+            ← <span id="label-prev">PREV</span>
+          </button>
+          <span class="carousel-counter" id="carousel-counter">01 / 05</span>
+          <button class="carousel-btn" id="next-btn" aria-label="Next Slide">
+            <span id="label-next">NEXT</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- SPA VIEW ALL Button -->
+      <div class="view-all-container">
+        <button class="btn-view-all" id="btn-view-all">
+          <span id="label-view-all">VIEW ALL PROJECTS</span> ↓
+        </button>
+      </div>
+    </section>
+
+    <!-- 02. ALL WORK GALLERY (SPA SPAWN OR DIRECT SCROLL) -->
+    <section id="work">
+      <span class="section-label" id="work-label">INDEX / ALL PROJECTS</span>
+      <h2 class="section-title" id="work-title">Selected Works</h2>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 03. PROFILE SECTION (PURE EDITORIAL TEXT - NO PHOTO) -->
+    <section id="profile">
+      <span class="section-label" id="profile-label">BIOGRAPHY & CREDENTIALS</span>
+      <h2 class="section-title" id="profile-title">Profile</h2>
+
+      <div class="profile-layout">
+        <div>
+          <p class="profile-bio-main" id="profile-bio-main">
+            Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.
+          </p>
+          <p class="profile-sub-text" id="profile-bio-sub">
+            Having completed M.Arch studies with distinction, his work investigates the intersection between precise structural engineering and soft environmental boundaries. Prior to graduate research, he worked with award-winning practices on public cultural centers and experimental housing prototypes.
+          </p>
+          <a href="#" class="cv-download-btn" onclick="alert('CV Download simulated.'); return false;" id="cv-btn">
+            DOWNLOAD FULL CV (PDF) ↓
+          </a>
+        </div>
+
+        <div class="profile-credentials">
+          <div class="cred-group">
+            <h4 id="head-edu">EDUCATION</h4>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="year">2024 — 2026</span>
+                <span class="title" id="edu-1-title">Master of Architecture (M.Arch I)</span>
+                <span class="institution" id="edu-1-inst">Graduate School of Design / Thesis Distinction</span>
+              </li>
+              <li class="cred-item">
+                <span class="year">2018 — 2023</span>
+                <span class="title" id="edu-2-title">Bachelor of Science in Architectural Design</span>
+                <span class="institution" id="edu-2-inst">Department of Architecture / First Class Honors</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="cred-group">
+            <h4 id="head-exp">SELECTED EXPERIENCE</h4>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="year">2023 — 2024</span>
+                <span class="title" id="exp-1-title">Architectural Assistant & Researcher</span>
+                <span class="institution">Atelier Tectonic Space, Taipei</span>
+              </li>
+              <li class="cred-item">
+                <span class="year">2022</span>
+                <span class="title" id="exp-2-title">Design Intern</span>
+                <span class="institution">Kengo Kuma & Associates, Tokyo</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04. NEWS SECTION -->
+    <section id="news">
+      <span class="section-label" id="news-label">UPDATES & PRESS</span>
+      <h2 class="section-title" id="news-title">News</h2>
+
+      <div class="news-timeline" id="news-timeline">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2026 Y.H. LIN ARCHITECTURE. ALL RIGHTS RESERVED.</div>
+    <div>DESIGNED & DEVELOPED FOR GITHUB PAGES</div>
+  </footer>
+
+  <!-- PROJECT DETAIL MODAL DIALOG -->
+  <dialog class="project-modal" id="project-modal">
+    <div class="modal-inner">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">✕</button>
+      <div id="modal-content-target">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    /* ==========================================
+       01. DATA MODEL (Bilingual Shared Source)
+       ========================================== */
+    const projectsData = [
+      {
+        id: "project-01",
+        year: "2026",
+        category: { en: "THESIS / URBAN RESILIENCE", zh: "碩士畢業論文 / 城市韌性" },
+        title: { en: "Hydrological Thresholds", zh: "水文交界處：極端氣候防洪聚落" },
+        location: { en: "Taipei Basin, Taiwan", zh: "台灣台北盆地" },
+        collaborators: { en: "Solo Thesis Project", zh: "個人畢業設計" },
+        desc: {
+          en: "A strategic architectural intervention responding to rising sea levels and river basin surges. The design integrates dynamic wetland filtration, elevated modular timber housing, and public water retention plazas to form a resilient urban edge.",
+          zh: "本案為針對海平面上升與流域暴漲設計的策略性建築干預。整合動態濕地過濾、高架模組化木造住宅與公共蓄水廣場，形塑具韌性的城市邊緣空間。"
+        },
+        primarySvgType: "structure",
+        plansSvgType: "diagram"
+      },
+      {
+        id: "project-02",
+        year: "2025",
+        category: { en: "ACADEMIC / CULTURAL", zh: "學術設計 / 文化建築" },
+        title: { en: "Monolith & Void Pavilion", zh: "巨石與留白：沉思展覽館" },
+        location: { en: "Kyoto, Japan", zh: "日本京都" },
+        collaborators: { en: "Studio Prof. K. Sato", zh: "指導教授 佐藤健一" },
+        desc: {
+          en: "An exploration into massive earth construction combined with monolithic basalt volumes. The building creates light shaft apertures that highlight shifting shadow geometries across raw concrete and local stone surfaces throughout the seasons.",
+          zh: "探索厚重土造結構與單體玄武岩體量結合的可能。建築開口引入細長光束，隨季節更迭在清水混凝土與在地石材表面描繪光影軌跡。"
+        },
+        primarySvgType: "monolith",
+        plansSvgType: "section"
+      },
+      {
+        id: "project-03",
+        year: "2025",
+        category: { en: "RESEARCH / HOUSING", zh: "專題研究 / 集合住宅" },
+        title: { en: "Subtropical Timber Housing", zh: "亞熱帶積層木造高層住宅" },
+        location: { en: "Tainan, Taiwan", zh: "台灣台南" },
+        collaborators: { en: "Sustainable Material Lab", zh: "永續材料研究室" },
+        desc: {
+          en: "High-density residential tower built using Cross-Laminated Timber (CLT) sourced from sustainable local forestry. Features deep double-skin balconies engineered for natural cross-ventilation and solar shielding.",
+          zh: "採用國產永續林業之直交集成材（CLT）構建的高密度住宅塔樓。配置深陽台雙層皮層系統，為亞熱帶氣候提供高效自然通風與遮陽。"
+        },
+        primarySvgType: "timber",
+        plansSvgType: "elevation"
+      },
+      {
+        id: "project-04",
+        year: "2024",
+        category: { en: "COMPETITION / FIRST PRIZE", zh: "競賽首獎 / 產業遺構" },
+        title: { en: "Silicone Silo Adaptive Reuse", zh: "矽晶筒倉再利用：光電研發基地" },
+        location: { en: "Kaohsiung, Taiwan", zh: "台灣高雄" },
+        collaborators: { en: "Team Lead w/ C. H. Chen", zh: "團隊負責人（與陳智浩合作）" },
+        desc: {
+          en: "Adaptive conversion of disused industrial grain silos into a clean energy innovation lab and public sky garden. Lightweight steel trusses bridge the cylindrical concrete towers, creating dramatic interior atrium spaces.",
+          zh: "將廢棄工業糧倉改造為清潔能源創新實驗室與空中花園。輕量鋼桁架架設於圓柱混凝土塔之間，創造具震撼力的內部中庭空間。"
+        },
+        primarySvgType: "silo",
+        plansSvgType: "diagram"
+      },
+      {
+        id: "project-05",
+        year: "2024",
+        category: { en: "INSTALLATION / EXHIBITION", zh: "裝置藝術 / 展覽空間" },
+        title: { en: "Pneumatic Membrane Canopy", zh: "氣膜結構遮棚：臨時聚會空間" },
+        location: { en: "Venice Biennale Collateral", zh: "威尼斯雙年展平行展" },
+        collaborators: { en: "Inflatable Fabrication Group", zh: "氣動構築小組" },
+        desc: {
+          en: "An ultra-lightweight inflatable pavilion constructed from translucent recycled ETFE membranes. Responding to real-time wind patterns, the canopy subtly expands and contracts, simulating a breathing architectural skin.",
+          zh: "採用半透明回收ETFE膜材打造的超輕量氣動展館。響應即時風場變化，膜體進行細微舒張與收縮，模擬會呼吸的建築皮膚。"
+        },
+        primarySvgType: "membrane",
+        plansSvgType: "section"
+      }
+    ];
+
+    const newsData = [
+      {
+        date: "2026.02",
+        title: { en: "M.Arch Thesis Award First Runner-Up", zh: "碩士畢業設計獎 亞軍" },
+        desc: { en: "Hydrological Thresholds project selected for national design publication.", zh: "作品「水文交界處」獲選刊登於全國建築設計年鑑。" }
+      },
+      {
+        date: "2025.11",
+        title: { en: "Exhibited at Young Architects Forum", zh: "參展 青年建築師論壇" },
+        desc: { en: "Subtropical Timber Housing prototypes presented in Taipei Fine Arts Museum.", zh: "亞熱帶積層木造住宅模型於台北市立美術館展示。" }
+      },
+      {
+        date: "2024.08",
+        title: { en: "Winner of Kaohsiung Silo Reuse Competition", zh: "高雄工業遺構改造競賽 獲勝" },
+        desc: { en: "Awarded first place among 120 international student proposals.", zh: "於120件國際學生提案中榮獲首獎。" }
+      }
+    ];
+
+    const uiText = {
+      en: {
+        logoSub: "ARCHITECTURE",
+        navWork: "WORK",
+        navProfile: "PROFILE",
+        navNews: "NEWS",
+        heroLabel: "01 / FEATURED PORTFOLIO",
+        heroText: "Graduate portfolio exploring tectonic clarity, spatial thresholds, and environmental adaptability through architectural synthesis.",
+        prev: "PREV",
+        next: "NEXT",
+        viewAll: "VIEW ALL PROJECTS",
+        workLabel: "INDEX / ALL PROJECTS",
+        workTitle: "Selected Works",
+        profileLabel: "BIOGRAPHY & CREDENTIALS",
+        profileTitle: "Profile",
+        profileBioMain: "Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.",
+        profileBioSub: "Having completed M.Arch studies with distinction, his work investigates the intersection between precise structural engineering and soft environmental boundaries.",
+        cvBtn: "DOWNLOAD FULL CV (PDF) ↓",
+        headEdu: "EDUCATION",
+        edu1Title: "Master of Architecture (M.Arch I)",
+        edu1Inst: "Graduate School of Design / Thesis Distinction",
+        edu2Title: "Bachelor of Science in Architectural Design",
+        edu2Inst: "Department of Architecture / First Class Honors",
+        headExp: "SELECTED EXPERIENCE",
+        exp1Title: "Architectural Assistant & Researcher",
+        exp2Title: "Design Intern",
+        newsLabel: "UPDATES & PRESS",
+        newsTitle: "News",
+        modalYear: "YEAR",
+        modalCat: "CATEGORY",
+        modalLoc: "LOCATION",
+        modalCollab: "COLLABORATORS",
+        modalOverview: "PROJECT OVERVIEW",
+        modalDrawings: "ARCHITECTURAL DRAWINGS & PLANS"
+      },
+      zh: {
+        logoSub: "建築作品集",
+        navWork: "作品集",
+        navProfile: "簡歷專長",
+        navNews: "最新動態",
+        heroLabel: "01 / 特選作品展示",
+        heroText: "探索構造清晰度、空間邊界與環境適應力的建築設計碩士作品集。",
+        prev: "上一案",
+        next: "下一案",
+        viewAll: "檢視全部作品",
+        workLabel: "索引 / 所有項目",
+        workTitle: "設計作品",
+        profileLabel: "個人簡歷與學歷",
+        profileTitle: "個人簡介",
+        profileBioMain: "林元浩（Yuan-Hao Lin）是一位建築研究者與設計師，專注於亞熱帶氣候下的韌性城市基礎設施、材料循環再利用與空間現象學。",
+        profileBioSub: "以優異成績取得建築碩士學位，其作品探討精確結構工程與柔性環境邊界之間的交會。曾於多家獲獎事務所參與公共文化中心與實驗住宅原型開發。",
+        cvBtn: "下載完整簡歷 (PDF) ↓",
+        headEdu: "教育背景",
+        edu1Title: "建築學碩士 (M.Arch I)",
+        edu1Inst: "設計研究生院 / 畢業論文優異獎",
+        edu2Title: "建築學理學士",
+        edu2Inst: "建築學系 / 一等榮譽畢業",
+        headExp: "經歷選列",
+        exp1Title: "建築助理與研究員",
+        exp2Title: "設計實習生",
+        newsLabel: "新聞與展覽",
+        newsTitle: "最新動態",
+        modalYear: "年份",
+        modalCat: "類別",
+        modalLoc: "地點",
+        modalCollab: "合作對象",
+        modalOverview: "設計概念說明",
+        modalDrawings: "建築圖面與模型圖"
+      }
+    };
+
+    /* ==========================================
+       02. STATE MANAGEMENT
+       ========================================== */
+    let currentLang = 'en';
+    let activeCarouselIndex = 0;
+    let isDirectionB = false;
+
+    /* ==========================================
+       03. SVG GENERATIVE ARTWORK PLACEHOLDERS
+       ========================================== */
+    function generateArchitecturalSvg(type, color = "#0a7e8c", title = "") {
+      let innerGraphics = "";
+      if (type === "structure") {
+        innerGraphics = `
+          <line x1="50" y1="350" x2="350" y2="50" stroke="${color}" stroke-width="1.5"/>
+          <line x1="50" y1="50" x2="350" y2="350" stroke="${color}" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <rect x="100" y="100" width="200" height="200" fill="none" stroke="#141414" stroke-width="2"/>
+          <circle cx="200" cy="200" r="70" fill="none" stroke="${color}" stroke-width="1.5"/>
+          <path d="M 120 280 Q 200 150 280 280" fill="none" stroke="#141414" stroke-width="1"/>
+        `;
+      } else if (type === "monolith") {
+        innerGraphics = `
+          <rect x="80" y="60" width="100" height="280" fill="#141414" opacity="0.85"/>
+          <rect x="210" y="120" width="120" height="220" fill="none" stroke="${color}" stroke-width="2"/>
+          <line x1="20" y1="340" x2="380" y2="340" stroke="#141414" stroke-width="2"/>
+          <line x1="130" y1="20" x2="130" y2="380" stroke="${color}" stroke-width="0.8" stroke-dasharray="2,2"/>
+        `;
+      } else if (type === "timber") {
+        innerGraphics = `
+          <g stroke="${color}" stroke-width="1">
+            <line x1="60" y1="80" x2="340" y2="80"/>
+            <line x1="60" y1="120" x2="340" y2="120"/>
+            <line x1="60" y1="160" x2="340" y2="160"/>
+            <line x1="60" y1="200" x2="340" y2="200"/>
+            <line x1="60" y1="240" x2="340" y2="240"/>
+            <line x1="60" y1="280" x2="340" y2="280"/>
+            <line x1="60" y1="320" x2="340" y2="320"/>
+          </g>
+          <rect x="120" y="50" width="160" height="300" fill="none" stroke="#141414" stroke-width="2"/>
+        `;
+      } else if (type === "silo") {
+        innerGraphics = `
+          <circle cx="140" cy="200" r="80" fill="none" stroke="#141414" stroke-width="2"/>
+          <circle cx="260" cy="200" r="80" fill="none" stroke="${color}" stroke-width="2"/>
+          <line x1="60" y1="200" x2="340" y2="200" stroke="#141414" stroke-width="1"/>
+          <rect x="180" y="140" width="40" height="120" fill="none" stroke="${color}" stroke-dasharray="3,3"/>
+        `;
+      } else {
+        // Membrane
+        innerGraphics = `
+          <path d="M 50 200 C 120 80, 280 80, 350 200 C 280 320, 120 320, 50 200 Z" fill="none" stroke="${color}" stroke-width="2"/>
+          <path d="M 80 200 C 140 120, 260 120, 320 200" fill="none" stroke="#141414" stroke-width="1" stroke-dasharray="4,2"/>
+        `;
+      }
+
+      return `
+        <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background:#efeeea;">
+          <!-- Grid Background Lines -->
+          <defs>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(20,20,20,0.05)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="400" height="400" fill="url(#grid)" />
+          ${innerGraphics}
+          <text x="20" y="380" font-family="JetBrains Mono" font-size="10" fill="#737373" letter-spacing="1">${title.toUpperCase()}</text>
+        </svg>
+      `;
+    }
+
+    /* ==========================================
+       04. CAROUSEL ENGINE
+       ========================================== */
+    function renderCarousel() {
+      const track = document.getElementById('carousel-track');
+      track.innerHTML = '';
+
+      projectsData.forEach((proj, idx) => {
+        const card = document.createElement('div');
+        card.className = `carousel-card ${idx === activeCarouselIndex ? 'active' : ''}`;
+        card.setAttribute('data-index', idx);
+        
+        // Pure imagery inside square frame, no text overlay
+        card.innerHTML = generateArchitecturalSvg(proj.primarySvgType, isDirectionB ? '#1a4d62' : '#0a7e8c', proj.id);
+
+        // Clicking square directly opens modal
+        card.addEventListener('click', () => {
+          if (idx === activeCarouselIndex) {
+            openProjectModal(proj.id);
+          } else {
+            activeCarouselIndex = idx;
+            updateCarouselPosition();
+          }
+        });
+
+        track.appendChild(card);
+      });
+
+      updateCarouselPosition();
+    }
+
+    function updateCarouselPosition() {
+      const track = document.getElementById('carousel-track');
+      const cards = track.querySelectorAll('.carousel-card');
+      const viewport = document.getElementById('carousel-viewport');
+      
+      if (!cards.length) return;
+
+      cards.forEach((c, idx) => {
+        if (idx === activeCarouselIndex) {
+          c.classList.add('active');
+        } else {
+          c.classList.remove('active');
+        }
+      });
+
+      // Calculate translation to keep active project centered
+      const cardWidth = cards[0].offsetWidth;
+      const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--carousel-gap')) || 24;
+      const viewportWidth = viewport.offsetWidth;
+
+      const activeOffset = (activeCarouselIndex * (cardWidth + gap)) - (viewportWidth / 2) + (cardWidth / 2);
+      track.style.transform = `translateX(${-activeOffset}px)`;
+
+      // Counter display
+      document.getElementById('carousel-counter').textContent = 
+        `0${activeCarouselIndex + 1} / 0${projectsData.length}`;
+    }
+
+    /* ==========================================
+       05. WORK GALLERY RENDER
+       ========================================== */
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = '';
+
+      projectsData.forEach((proj) => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.innerHTML = `
+          <div class="gallery-thumb">
+            ${generateArchitecturalSvg(proj.primarySvgType, isDirectionB ? '#1a4d62' : '#0a7e8c', proj.id)}
+          </div>
+          <div class="gallery-meta">
+            <span class="tag">${proj.category[currentLang]}</span>
+            <h3>${proj.title[currentLang]}</h3>
+            <div class="info">
+              <span>${proj.location[currentLang]}</span>
+              <span>${proj.year}</span>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openProjectModal(proj.id));
+        grid.appendChild(card);
+      });
+    }
+
+    /* ==========================================
+       06. NEWS SECTION RENDER
+       ========================================== */
+    function renderNews() {
+      const container = document.getElementById('news-timeline');
+      container.innerHTML = '';
+
+      newsData.forEach((item) => {
+        const el = document.createElement('div');
+        el.className = 'news-item';
+        el.innerHTML = `
+          <div class="news-date">${item.date}</div>
+          <div class="news-content">
+            <h3>${item.title[currentLang]}</h3>
+            <p>${item.desc[currentLang]}</p>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    /* ==========================================
+       07. MODAL DIALOG CONTROLLER
+       ========================================== */
+    function openProjectModal(id) {
+      const proj = projectsData.find(p => p.id === id);
+      if (!proj) return;
+
+      const target = document.getElementById('modal-content-target');
+      const t = uiText[currentLang];
+
+      target.innerHTML = `
+        <div class="modal-header-meta">
+          <span class="tag">${proj.category[currentLang]}</span>
+          <h2>${proj.title[currentLang]}</h2>
+          
+          <div class="modal-specs-grid">
+            <div class="spec-item">
+              <label>${t.modalYear}</label>
+              <div>${proj.year}</div>
+            </div>
+            <div class="spec-item">
+              <label>${t.modalLoc}</label>
+              <div>${proj.location[currentLang]}</div>
+            </div>
+            <div class="spec-item">
+              <label>${t.modalCollab}</label>
+              <div>${proj.collaborators[currentLang]}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div>
+            <h4 style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-teal); margin-bottom: 0.8rem;">
+              ${t.modalOverview}
+            </h4>
+            <p class="modal-description">${proj.desc[currentLang]}</p>
+          </div>
+
+          <div class="modal-gallery-stack">
+            <h4 style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-teal);">
+              ${t.modalDrawings}
+            </h4>
+            
+            <div class="modal-img-wrapper">
+              ${generateArchitecturalSvg(proj.primarySvgType, isDirectionB ? '#1a4d62' : '#0a7e8c', 'PRIMARY TECTONIC RENDERING')}
+              <div class="modal-img-caption">FIG 1.1 — Isometric Structural Rendering</div>
+            </div>
+
+            <div class="modal-img-wrapper">
+              ${generateArchitecturalSvg(proj.plansSvgType, '#141414', 'ARCHITECTURAL PLAN / SECTION')}
+              <div class="modal-img-caption">FIG 1.2 — Transverse Architectural Section & Detailed Threshold</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dialog = document.getElementById('project-modal');
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const dialog = document.getElementById('project-modal');
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+
+    /* ==========================================
+       08. BILINGUAL SYSTEM SWITCH
+       ========================================== */
+    function updateLanguage(lang) {
+      currentLang = lang;
+      const t = uiText[lang];
+
+      document.getElementById('logo-sub').textContent = t.logoSub;
+      document.getElementById('nav-work').textContent = t.navWork;
+      document.getElementById('nav-profile').textContent = t.navProfile;
+      document.getElementById('nav-news').textContent = t.navNews;
+
+      document.getElementById('hero-label').textContent = t.heroLabel;
+      document.getElementById('hero-text').textContent = t.heroText;
+      document.getElementById('label-prev').textContent = t.prev;
+      document.getElementById('label-next').textContent = t.next;
+      document.getElementById('label-view-all').textContent = t.viewAll;
+
+      document.getElementById('work-label').textContent = t.workLabel;
+      document.getElementById('work-title').textContent = t.workTitle;
+
+      document.getElementById('profile-label').textContent = t.profileLabel;
+      document.getElementById('profile-title').textContent = t.profileTitle;
+      document.getElementById('profile-bio-main').textContent = t.profileBioMain;
+      document.getElementById('profile-bio-sub').textContent = t.profileBioSub;
+      document.getElementById('cv-btn').textContent = t.cvBtn;
+
+      document.getElementById('head-edu').textContent = t.headEdu;
+      document.getElementById('edu-1-title').textContent = t.edu1Title;
+      document.getElementById('edu-1-inst').textContent = t.edu1Inst;
+      document.getElementById('edu-2-title').textContent = t.edu2Title;
+      document.getElementById('edu-2-inst').textContent = t.edu2Inst;
+      document.getElementById('head-exp').textContent = t.headExp;
+      document.getElementById('exp-1-title').textContent = t.exp1Title;
+      document.getElementById('exp-2-title').textContent = t.exp2Title;
+
+      document.getElementById('news-label').textContent = t.newsLabel;
+      document.getElementById('news-title').textContent = t.newsTitle;
+
+      renderGallery();
+      renderNews();
+    }
+
+    /* ==========================================
+       09. INITIALIZATION & LISTENERS
+       ========================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCarousel();
+      renderGallery();
+      renderNews();
+
+      // Controls
+      document.getElementById('prev-btn').addEventListener('click', () => {
+        activeCarouselIndex = (activeCarouselIndex - 1 + projectsData.length) % projectsData.length;
+        updateCarouselPosition();
+      });
+
+      document.getElementById('next-btn').addEventListener('click', () => {
+        activeCarouselIndex = (activeCarouselIndex + 1) % projectsData.length;
+        updateCarouselPosition();
+      });
+
+      // SPA VIEW ALL Scroll Switch
+      document.getElementById('btn-view-all').addEventListener('click', () => {
+        const workSec = document.getElementById('work');
+        workSec.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Language Toggle
+      document.getElementById('lang-toggle-btn').addEventListener('click', () => {
+        updateLanguage(currentLang === 'en' ? 'zh' : 'en');
+      });
+
+      // Modal Close
+      document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+      document.getElementById('project-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'project-modal') closeModal();
+      });
+
+      // Direction B Switcher
+      document.getElementById('toggle-dir-btn').addEventListener('click', () => {
+        isDirectionB = !isDirectionB;
+        if (isDirectionB) {
+          document.body.classList.add('direction-b');
+          document.getElementById('dir-indicator').textContent = "DIRECTION B (Slate & Monospace Grid)";
+          document.getElementById('toggle-dir-btn').textContent = "SWITCH TO DIRECTION A";
+        } else {
+          document.body.classList.remove('direction-b');
+          document.getElementById('dir-indicator').textContent = "DIRECTION A (Off-White & Teal)";
+          document.getElementById('toggle-dir-btn').textContent = "SWITCH TO DIRECTION B";
+        }
+        renderCarousel();
+        renderGallery();
+      });
+
+      // Window Resize Recalculations
+      window.addEventListener('resize', updateCarouselPosition);
+    });
+  </script>
+</body>
+</html>
