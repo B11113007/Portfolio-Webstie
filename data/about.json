@@ -1,0 +1,59 @@
+{
+  "bio": {
+    "en": "Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.",
+    "zh": "林元浩（Yuan-Hao Lin）是一位建築研究者與設計師，專注於亞熱帶氣候下的韌性城市基礎設施、材料循環再利用與空間現象學。"
+  },
+  "bioSub": {
+    "en": "Having completed M.Arch studies with distinction, his work investigates the intersection between precise structural engineering and soft environmental boundaries. Prior to graduate research, he worked with award-winning practices on public cultural centers and experimental housing prototypes.",
+    "zh": "以優異成績取得建築碩士學位，其作品探討精確結構工程與柔性環境邊界之間的交會。曾於多家獲獎事務所參與公共文化中心與實驗住宅原型開發。"
+  },
+  "cvFile": "",
+  "education": [
+    {
+      "years": "2024 — 2026",
+      "title": {
+        "en": "Master of Architecture (M.Arch I)",
+        "zh": "建築學碩士 (M.Arch I)"
+      },
+      "institution": {
+        "en": "Graduate School of Design / Thesis Distinction",
+        "zh": "設計研究生院 / 畢業論文優異獎"
+      }
+    },
+    {
+      "years": "2018 — 2023",
+      "title": {
+        "en": "Bachelor of Science in Architectural Design",
+        "zh": "建築學理學士"
+      },
+      "institution": {
+        "en": "Department of Architecture / First Class Honors",
+        "zh": "建築學系 / 一等榮譽畢業"
+      }
+    }
+  ],
+  "experience": [
+    {
+      "years": "2023 — 2024",
+      "title": {
+        "en": "Architectural Assistant & Researcher",
+        "zh": "建築助理與研究員"
+      },
+      "institution": {
+        "en": "Atelier Tectonic Space, Taipei",
+        "zh": "構築空間工作室，台北"
+      }
+    },
+    {
+      "years": "2022",
+      "title": {
+        "en": "Design Intern",
+        "zh": "設計實習生"
+      },
+      "institution": {
+        "en": "Kengo Kuma & Associates, Tokyo",
+        "zh": "隈研吾建築都市設計事務所，東京"
+      }
+    }
+  ]
+}

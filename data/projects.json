@@ -10,6 +10,12 @@
       "en": "A strategic architectural intervention responding to rising sea levels and river basin surges. The design integrates dynamic wetland filtration, elevated modular timber housing, and public water retention plazas to form a resilient urban edge.",
       "zh": "本案為針對海平面上升與流域暴漲設計的策略性建築干預。整合動態濕地過濾、高架模組化木造住宅與公共蓄水廣場，形塑具韌性的城市邊緣空間。"
     },
+    "image": "images/projects/project-01/cover.jpg",
+    "galleryImages": [
+      "images/projects/project-01/fig-1.jpg",
+      "images/projects/project-01/fig-2.jpg",
+      "images/projects/project-01/fig-3.jpg"
+    ],
     "primarySvgType": "structure",
     "plansSvgType": "diagram"
   },
@@ -24,6 +30,8 @@
       "en": "An exploration into massive earth construction combined with monolithic basalt volumes. The building creates light shaft apertures that highlight shifting shadow geometries across raw concrete and local stone surfaces throughout the seasons.",
       "zh": "探索厚重土造結構與單體玄武岩體量結合的可能。建築開口引入細長光束，隨季節更迭在清水混凝土與在地石材表面描繪光影軌跡。"
     },
+    "image": "",
+    "galleryImages": ["", ""],
     "primarySvgType": "monolith",
     "plansSvgType": "section"
   },
@@ -38,6 +46,8 @@
       "en": "High-density residential tower built using Cross-Laminated Timber (CLT) sourced from sustainable local forestry. Features deep double-skin balconies engineered for natural cross-ventilation and solar shielding.",
       "zh": "採用國產永續林業之直交集成材（CLT）構建的高密度住宅塔樓。配置深陽台雙層皮層系統，為亞熱帶氣候提供高效自然通風與遮陽。"
     },
+    "image": "",
+    "galleryImages": ["", ""],
     "primarySvgType": "timber",
     "plansSvgType": "elevation"
   },
@@ -52,6 +62,8 @@
       "en": "Adaptive conversion of disused industrial grain silos into a clean energy innovation lab and public sky garden. Lightweight steel trusses bridge the cylindrical concrete towers, creating dramatic interior atrium spaces.",
       "zh": "將廢棄工業糧倉改造為清潔能源創新實驗室與空中花園。輕量鋼桁架架設於圓柱混凝土塔之間，創造具震撼力的內部中庭空間。"
     },
+    "image": "",
+    "galleryImages": ["", ""],
     "primarySvgType": "silo",
     "plansSvgType": "diagram"
   },
@@ -66,6 +78,8 @@
       "en": "An ultra-lightweight inflatable pavilion constructed from translucent recycled ETFE membranes. Responding to real-time wind patterns, the canopy subtly expands and contracts, simulating a breathing architectural skin.",
       "zh": "採用半透明回收ETFE膜材打造的超輕量氣動展館。響應即時風場變化，膜體進行細微舒張與收縮，模擬會呼吸的建築皮膚。"
     },
+    "image": "",
+    "galleryImages": ["", ""],
     "primarySvgType": "membrane",
     "plansSvgType": "section"
   }
