@@ -1,59 +1,59 @@
 {
   "photo": "",
   "bio": {
-    "en": "Yuan-Hao Lin is an architecture researcher and designer focusing on resilient urban infrastructures, material re-use, and spatial phenomenology in subtropical climates.",
-    "zh": "林元浩（Yuan-Hao Lin）是一位建築研究者與設計師，專注於亞熱帶氣候下的韌性城市基礎設施、材料循環再利用與空間現象學。"
+    "en": "Zhe-Yi Li is an architecture student currently pursuing a Master's degree at National Taiwan University of Science and Technology (NTUST).",
+    "zh": "李哲逸（Zhe-YI Li）是一位建築學生，目前正在台灣科技大學攻讀碩士學位。"
   },
   "bioSub": {
-    "en": "Having completed M.Arch studies with distinction, his work investigates the intersection between precise structural engineering and soft environmental boundaries. Prior to graduate research, he worked with award-winning practices on public cultural centers and experimental housing prototypes.",
-    "zh": "以優異成績取得建築碩士學位，其作品探討精確結構工程與柔性環境邊界之間的交會。曾於多家獲獎事務所參與公共文化中心與實驗住宅原型開發。"
+    "en": "Having recently earned his Bachelor's degree in Architecture, he is actively exploring each stage of life—believing that the journey itself is the scenery, while the outcome is a postcard.",
+    "zh": "剛從建築系取得學士學位，目前正積極的開拓人生的每一站，並認為這些過程都是風景，而結果是明信片。"
   },
   "cvFile": "",
   "education": [
     {
       "years": "2024 — 2026",
       "title": {
-        "en": "Master of Architecture (M.Arch I)",
-        "zh": "建築學碩士 (M.Arch I)"
+        "en": "Bachelor of Architecture",
+        "zh": "建築學士"
       },
       "institution": {
-        "en": "Graduate School of Design / Thesis Distinction",
-        "zh": "設計研究生院 / 畢業論文優異獎"
+        "en": "National Taiwan University of Science and Technology (NTUST)",
+        "zh": "台灣科技大學"
       }
     },
     {
       "years": "2018 — 2023",
       "title": {
-        "en": "Bachelor of Science in Architectural Design",
-        "zh": "建築學理學士"
+        "en": "National Tainan First Senior High School",
+        "zh": "台南一中"
       },
       "institution": {
-        "en": "Department of Architecture / First Class Honors",
-        "zh": "建築學系 / 一等榮譽畢業"
+        "en": "General Track / Student Association",
+        "zh": "普通學生/學生會"
       }
     }
   ],
   "experience": [
     {
-      "years": "2023 — 2024",
+      "years": "2024",
       "title": {
-        "en": "Architectural Assistant & Researcher",
-        "zh": "建築助理與研究員"
+        "en": "Design Intern",
+        "zh": "建築實習生"
       },
       "institution": {
-        "en": "Atelier Tectonic Space, Taipei",
-        "zh": "構築空間工作室，台北"
+        "en": "IHES Architecture, Tainan",
+        "zh": "楊士正建築師事務所，台南"
       }
     },
     {
-      "years": "2022",
+      "years": "2023",
       "title": {
         "en": "Design Intern",
         "zh": "設計實習生"
       },
       "institution": {
-        "en": "Kengo Kuma & Associates, Tokyo",
-        "zh": "隈研吾建築都市設計事務所，東京"
+        "en": "Think Lab, Kaohsiung",
+        "zh": "之物建築，高雄"
       }
     }
   ],
@@ -61,22 +61,8 @@
     {
       "year": "2026",
       "title": {
-        "en": "M.Arch Thesis Award First Runner-Up — Hydrological Thresholds selected for national design publication",
-        "zh": "碩士畢業設計獎 亞軍 — 作品「水文交界處」獲選刊登於全國建築設計年鑑"
-      }
-    },
-    {
-      "year": "2025",
-      "title": {
-        "en": "Exhibited at Young Architects Forum — Subtropical Timber Housing prototypes at Taipei Fine Arts Museum",
-        "zh": "參展 青年建築師論壇 — 亞熱帶積層木造住宅模型於台北市立美術館展示"
-      }
-    },
-    {
-      "year": "2024",
-      "title": {
-        "en": "Winner of Kaohsiung Silo Reuse Competition — First place among 120 international student proposals",
-        "zh": "高雄工業遺構改造競賽 首獎 — 於 120 件國際學生提案中獲選第一名"
+        "en": "IEAGD-T20 Selected Project",
+        "zh": "畢業設計作品，入選大評圖"
       }
     }
   ]

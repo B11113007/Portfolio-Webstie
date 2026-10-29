@@ -3,28 +3,28 @@
     "id": "project-01",
     "year": "2026",
     "category": {
-      "en": "THESIS / URBAN RESILIENCE",
-      "zh": "碩士畢業論文 / 城市韌性"
+      "en": "THESIS Project / Nature Restoration",
+      "zh": "畢業設計 / 自然修復"
     },
     "title": {
-      "en": "Hydrological Thresholds",
-      "zh": "水文交界處：極端氣候防洪聚落"
+      "en": "Trash Mountain Restoration",
+      "zh": "垃圾山修復計畫"
     },
     "location": {
-      "en": "Taipei Basin, Taiwan",
-      "zh": "台灣台北盆地"
+      "en": "Xinfeng, Hsinchu, Taiwan",
+      "zh": "台灣, 新竹新豐"
     },
     "collaborators": {
       "en": "Solo Thesis Project",
       "zh": "個人畢業設計"
     },
     "desc": {
-      "en": "A strategic architectural intervention responding to rising sea levels and river basin surges. The design integrates dynamic wetland filtration, elevated modular timber housing, and public water retention plazas to form a resilient urban edge.",
-      "zh": "本案為針對海平面上升與流域暴漲設計的策略性建築干預。整合動態濕地過濾、高架模組化木造住宅與公共蓄水廣場，形塑具韌性的城市邊緣空間。"
+      "en": "Through a phased landfill remediation strategy, this project introduces new civic programs into a landscape scarred by a massive trash mountain—serving the surrounding community while facilitating ecological restoration.",
+      "zh": "本案透過一系列的垃圾山清除行動，並為受垃圾山破壞的場地置入新的機能服務周遭社區與自然修復。"
     },
     "summary": {
-      "en": "A strategic architectural intervention responding to rising sea levels and river basin surges.",
-      "zh": "本案為針對海平面上升與流域暴漲設計的策略性建築干預。"
+      "en": "Introducing new civic programs into a landfill-damaged site to serve surrounding communities and restore nature.",
+      "zh": "受垃圾山破壞的場地置入新的機能服務周遭社區與自然修復。"
     },
     "image": "images/projects/project-01/cover.jpg",
     "galleryImages": [
@@ -39,68 +39,71 @@
     "id": "project-02",
     "year": "2025",
     "category": {
-      "en": "ACADEMIC / CULTURAL",
-      "zh": "學術設計 / 文化建築"
+      "en": "ACADEMIC / housing",
+      "zh": "學術設計 / 居住建築"
     },
     "title": {
-      "en": "Monolith & Void Pavilion",
-      "zh": "巨石與留白：沉思展覽館"
+      "en": "House of Sound",
+      "zh": "聲音之家"
     },
     "location": {
-      "en": "Kyoto, Japan",
-      "zh": "日本京都"
+      "en": "Cairo, Egypt",
+      "zh": "埃及開羅"
     },
     "collaborators": {
-      "en": "Studio Prof. K. Sato",
-      "zh": "指導教授 佐藤健一"
+      "en": "Emily Guan",
+      "zh": "Emily Guan"
     },
     "desc": {
-      "en": "An exploration into massive earth construction combined with monolithic basalt volumes. The building creates light shaft apertures that highlight shifting shadow geometries across raw concrete and local stone surfaces throughout the seasons.",
-      "zh": "探索厚重土造結構與單體玄武岩體量結合的可能。建築開口引入細長光束，隨季節更迭在清水混凝土與在地石材表面描繪光影軌跡。"
+      "en": "Designed as a residence for a musician, the house curates a sequence of acoustic experiences where human activity, materiality, and architectural volumes intertwine like a musical composition across distinct functional spaces.",
+      "zh": "這是一個音樂家的自宅，創造一系列的聲音體驗，在每個不同機能的空間中讓人的活動與材質與建築量體彼此交織成一個演奏曲。"
     },
     "summary": {
-      "en": "An exploration into massive earth construction combined with monolithic basalt volumes.",
-      "zh": "探索厚重土造結構與單體玄武岩體量結合的可能。"
+      "en": "A musician's residence that curates a continuous sequence of spatial and acoustic experiences.",
+      "zh": "這是一個音樂家的自宅，創造一系列的聲音體驗。"
     },
-    "image": "",
+    "image": "images/projects/project-02/cover.png",
     "galleryImages": [
-      "",
-      ""
+      "images/projects/project-02/fig-1.jpg",
+      "images/projects/project-02/fig-2.jpg",
+      "images/projects/project-02/fig-3.jpg",
+      "images/projects/project-02/fig-4.jpg"
     ],
     "primarySvgType": "monolith",
     "plansSvgType": "section"
   },
   {
     "id": "project-03",
-    "year": "2025",
+    "year": "2024",
     "category": {
-      "en": "RESEARCH / HOUSING",
-      "zh": "專題研究 / 集合住宅"
+      "en": "ACADEMIC / THEATER",
+      "zh": "學術設計 / 劇場"
     },
     "title": {
-      "en": "Subtropical Timber Housing",
-      "zh": "亞熱帶積層木造高層住宅"
+      "en": "Alleyway Theater",
+      "zh": "巷弄劇場"
     },
     "location": {
-      "en": "Tainan, Taiwan",
-      "zh": "台灣台南"
+      "en": "Taipei, Taiwan",
+      "zh": "台灣台北"
     },
     "collaborators": {
-      "en": "Sustainable Material Lab",
-      "zh": "永續材料研究室"
+      "en": "Solo Project",
+      "zh": "單人設計"
     },
     "desc": {
-      "en": "High-density residential tower built using Cross-Laminated Timber (CLT) sourced from sustainable local forestry. Features deep double-skin balconies engineered for natural cross-ventilation and solar shielding.",
-      "zh": "採用國產永續林業之直交集成材（CLT）構建的高密度住宅塔樓。配置深陽台雙層皮層系統，為亞熱帶氣候提供高效自然通風與遮陽。"
+      "en": "Architectural openings extend into the surrounding alleyways, inviting passersby to catch glimpses of everyday theatrical moments framed between neighboring buildings—where windows become the stage and adjacent facades act as the curtain.",
+      "zh": "建築的窗口向巷弄延伸，透過鄰房讓經過的人們窺探劇場中的日常活動，窗戶在這裡的角色是舞台，鄰房則扮演布幕"
     },
     "summary": {
-      "en": "High-density residential tower built using Cross-Laminated Timber (CLT) sourced from sustainable local forestry.",
-      "zh": "採用國產永續林業之直交集成材（CLT）構建的高密度住宅塔樓。"
+      "en": "Architectural openings extend into the alleyways, allowing passersby to glimpse everyday activities inside the theater.",
+      "zh": "建築的窗口向巷弄延伸，透過鄰房讓經過的人們窺探劇場中的日常活動。"
     },
-    "image": "",
+    "image": "images/projects/project-03/cover.jpg",
     "galleryImages": [
-      "",
-      ""
+      "images/projects/project-03/fig-1.jpg",
+      "images/projects/project-03/fig-2.jpg",
+      "images/projects/project-03/fig-3.jpg"
     ],
     "primarySvgType": "timber",
     "plansSvgType": "elevation"
@@ -109,33 +112,34 @@
     "id": "project-04",
     "year": "2024",
     "category": {
-      "en": "COMPETITION / FIRST PRIZE",
-      "zh": "競賽首獎 / 產業遺構"
+      "en": "COLLABORATION / COLLECTIVE HOUSING",
+      "zh": "合作 / 集合住宅"
     },
     "title": {
-      "en": "Silicone Silo Adaptive Reuse",
-      "zh": "矽晶筒倉再利用：光電研發基地"
+      "en": "kitchenless",
+      "zh": "kitchenless 社宅"
     },
     "location": {
-      "en": "Kaohsiung, Taiwan",
-      "zh": "台灣高雄"
+      "en": "Taipei, Taiwan",
+      "zh": "台灣台北"
     },
     "collaborators": {
-      "en": "Team Lead w/ C. H. Chen",
-      "zh": "團隊負責人（與陳智浩合作）"
+      "en": "YLH",
+      "zh": "楊霖璿"
     },
     "desc": {
-      "en": "Adaptive conversion of disused industrial grain silos into a clean energy innovation lab and public sky garden. Lightweight steel trusses bridge the cylindrical concrete towers, creating dramatic interior atrium spaces.",
-      "zh": "將廢棄工業糧倉改造為清潔能源創新實驗室與空中花園。輕量鋼桁架架設於圓柱混凝土塔之間，創造具震撼力的內部中庭空間。"
+      "en": "Challenging conventional apartment layouts through a 'kitchenless' concept, this social housing proposal collectivizes underutilized private kitchens to unlock more generous living quarters, shared amenities, and everyday social interaction.",
+      "zh": "在傳統的集合住宅中，嘗試kitchenless的想法，透過將使用率低的廚房公共化，提供更大的居住空間與公共空間，並創造交流的機會。"
     },
     "summary": {
-      "en": "Adaptive conversion of disused industrial grain silos into a clean energy innovation lab and public sky garden.",
-      "zh": "將廢棄工業糧倉改造為清潔能源創新實驗室與空中花園。"
+      "en": "A 'kitchenless' housing concept that collectivizes private kitchens to expand living and shared communal spaces.",
+      "zh": "嘗試kitchenless的想法，透過將使用率低的廚房公共化，提供更大的居住空間與公共空間。"
     },
-    "image": "",
+    "image": "images/projects/project-04/cover.png",
     "galleryImages": [
-      "",
-      ""
+      "images/projects/project-04/fig-1.png",
+      "images/projects/project-04/fig-2.png",
+      "images/projects/project-04/fig-3.png"
     ],
     "primarySvgType": "silo",
     "plansSvgType": "diagram"
@@ -144,20 +148,20 @@
     "id": "project-05",
     "year": "2024",
     "category": {
-      "en": "INSTALLATION / EXHIBITION",
-      "zh": "裝置藝術 / 展覽空間"
+      "en": "ACADEMIC / SCHOOL",
+      "zh": "學術設計 / school"
     },
     "title": {
-      "en": "Pneumatic Membrane Canopy",
-      "zh": "氣膜結構遮棚：臨時聚會空間"
+      "en": "Center for Architectural Technology & Tectonics",
+      "zh": "建築科技構築中心"
     },
     "location": {
-      "en": "Venice Biennale Collateral",
-      "zh": "威尼斯雙年展平行展"
+      "en": "Taipei, Taiwan",
+      "zh": "台灣台北"
     },
     "collaborators": {
-      "en": "Inflatable Fabrication Group",
-      "zh": "氣動構築小組"
+      "en": "Solo Project",
+      "zh": "單人設計"
     },
     "desc": {
       "en": "An ultra-lightweight inflatable pavilion constructed from translucent recycled ETFE membranes. Responding to real-time wind patterns, the canopy subtly expands and contracts, simulating a breathing architectural skin.",
@@ -167,10 +171,9 @@
       "en": "An ultra-lightweight inflatable pavilion constructed from translucent recycled ETFE membranes.",
       "zh": "採用半透明回收ETFE膜材打造的超輕量氣動展館。"
     },
-    "image": "",
+    "image": "images/projects/project-05/cover.png",
     "galleryImages": [
-      "",
-      ""
+      "images/projects/project-05/fig-1.png"
     ],
     "primarySvgType": "membrane",
     "plansSvgType": "section"

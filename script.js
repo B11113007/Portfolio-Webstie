@@ -149,8 +149,8 @@ const uiText = {
   zh: {
     navWork:       '作品集',
     navAbout:      '關於',
-    prev:          '上一案',
-    next:          '下一案',
+    prev:          'PREV',
+    next:          'NEXT',
     viewAll:       '檢視全部',
     viewProfile:   '查看個人簡介',
     workLabelHome: '索引 / 精選項目',
